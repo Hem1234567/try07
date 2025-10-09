@@ -200,7 +200,7 @@
 
         .home-galaxy-button, .home-new-button-wrapper {
             position: relative;
-            z-index: 30;
+            z-index: 1000;
             width: 100%;
         }
         
