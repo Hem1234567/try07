@@ -1212,5 +1212,3 @@ class WorldDomeGallery {
 document.addEventListener("DOMContentLoaded", () => {
   new WorldDomeGallery();
 });
-//gallery section ends
-
