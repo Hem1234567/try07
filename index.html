@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEC Hacks | Hackathon</title>
+    <link rel="icon" type="image/png" href="./assets/New folder/favicon (1).png" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <script defer async src="https://apply.devfolio.co/v2/sdk.js"></script>
+</head>
+<body>
+     <!-- Starfield code starts -->
+    <canvas class="starfield-canvas" id="starfieldCanvas"></canvas>
+
+    <!--home section starts-->
+    <div class="home-main-container" id="home">
+        <div class="home-content-wrapper">
+            <!-- Title Container -->
+            <div class="home-title-container">
+                <h1 class="home-hud-title" id="homeHudTitle">PEC HACKS 3.0</h1>
+                <p class="home-title-text">
+                    DECEMBER 27-28, 2025
+                </p>
+                <p class="home-title-text">
+                    36-hr International Level HACKATHON IN CHENNAI
+                </p>
+            </div>
+
+            <!-- Content Container (Buttons + Timer) -->
+            <div class="home-content-container">
+                <!-- Button Container -->
+                <div class="home-button-container">
+                    <div class="home-button-row">
+                        <!-- Visit 2.0 button with blue theme -->
+                        <div class="home-galaxy-button cursor-target">
+                            <button class="home-space-button home-blue-theme" onclick="window.location.href='https://two.pechacks.org/'">
+                                <span class="home-backdrop"></span>
+                                <span class="home-galaxy"></span>
+                                <label class="home-text" style="font-family: 'Teko', sans-serif; font-size: large;">Visit 2.0</label>
+                            </button>
+                        </div>
+                        <!-- Community button with original theme -->
+                        <div class="home-galaxy-button cursor-target">
+                            <button class="home-space-button" onclick="window.location.href='https://chat.whatsapp.com/GlkLriPcKKZJYduudh6RbI?mode=wwt'">
+                                <span class="home-backdrop"></span>
+                                <span class="home-galaxy"></span>
+                                <label class="home-text" style="font-family: 'Teko', sans-serif; font-size: large;">Join Our Community</label>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Devfolio Apply Button -->
+                    <div class="home-space-btn-wrapper">
+                        <div class="home-apply-button" data-hackathon-slug="pechacks3" data-button-theme="light" style="height: 44px; width: 312px; margin: 0 auto;"></div>
+                    </div>
+                </div>
+
+                <!-- Timer Container -->
+                <div class="home-timer-container">
+                    <div class="home-timer">
+                        <div class="home-timer-unit">
+                            <div class="home-timer-value" style="font-family: 'Outfit', sans-serif;" id="homeDays">00</div>
+                            <div class="home-timer-label">Days</div>
+                        </div>
+                        <div class="home-timer-unit">
+                            <div class="home-timer-value" style="font-family: 'Outfit', sans-serif;" id="homeHours">00</div>
+                            <div class="home-timer-label">Hours</div>
+                        </div>
+                        <div class="home-timer-unit">
+                            <div class="home-timer-value" style="font-family: 'Outfit', sans-serif;" id="homeMinutes">00</div>
+                            <div class="home-timer-label">Minutes</div>
+                        </div>
+                        <div class="home-timer-unit">
+                            <div class="home-timer-value" style="font-family: 'Outfit', sans-serif;" id="homeSeconds">00</div>
+                            <div class="home-timer-label">Seconds</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--About section starts-->
+    <section id="about" class="about-section">
+        <div class="about-absolute-inset"></div>
+
+        <div class="about-container about-relative-z-10">
+            <!-- Header -->
+            <div class="about-heading about-not-selectable">
+                <h1 class="about-heading-shadow about-not-selectable">ABOUT US</h1>
+                <h2 class="about-heading-small">
+                    <div><div>A</div></div>
+                    <div><div>B</div></div>
+                    <div><div>O</div></div>
+                    <div><div>U</div></div>
+                    <div><div>T</div></div>
+                    <div><div style="margin: 0px 20px 0px 0px;"></div></div>
+                    <div><div>U</div></div>
+                    <div><div>S</div></div>
+                </h2>
+            </div>
+
+            <!-- Content -->
+            <div class="about-content">
+                <div class="about-content-wrapper">
+                    <h3 class="about-title">Welcome, Innovators and Change-Makers!</h3>
+                    <p class="about-para">
+                        "Welcome to <span class="about-highlight-text">PEC HACKS</span>, where innovation meets impact! We are thrilled to invite you to this exciting hackathon organized by <span class="about-bold-white"> PANIMALAR ENGINEERING COLLEGE, CHENNAI, TAMILNADU,</span>. It is your gateway to a world of possibilities, where passionate individuals like you come together to unleash their creativity, solve real-world challenges, and make a meaningful difference."
+                    </p>
+
+                    <section class="about-stats-section">
+                        <div class="about-stats-container">
+                            <!-- Registrations -->
+                            <div class="about-stat-box">
+                                <div class="about-stat-icon"><i class="fas fa-user-plus"></i></div>
+                                <div class="about-stat-number" data-target="10000">0</div><span
+                                    style="display: inline-block; font-weight: bold;  font-family: 'Teko', sans-serif; font-size: 1.2rem; margin-left: 5px;">+
+                                </span>
+                                <div class="about-stat-label">Registrations</div>
+                            </div>
+
+                            <!-- Colleges -->
+                            <div class="about-stat-box">
+                                <div class="about-stat-icon"><i class="fas fa-university"></i></div>
+                                <div class="about-stat-number" data-target="361">0</div>
+                                <div class="about-stat-label">Colleges</div>
+                            </div>
+
+                            <!-- Cities -->
+                            <div class="about-stat-box">
+                                <div class="about-stat-icon"><i class="fas fa-city"></i></div>
+                                <div class="about-stat-number" data-target="82">0</div>
+                                <div class="about-stat-label">Cities</div>
+                            </div>
+
+                            <!-- Hackers -->
+                            <div class="about-stat-box">
+                                <div class="about-stat-icon"><i class="fas fa-user-secret"></i></div>
+                                <div class="about-stat-number" data-target="300">0</div>
+                                <div class="about-stat-label">Hackers</div>
+                            </div>
+
+                            <!-- Projects -->
+                            <div class="about-stat-box">
+                                <div class="about-stat-icon"><i class="fas fa-lightbulb"></i></div>
+                                <div class="about-stat-number" data-target="100">0</div>
+                                <div class="about-stat-label">Projects</div>
+                            </div>
+
+                            <!-- Prize Pool -->
+                            <div class="about-stat-box">
+                                <div class="about-stat-icon"><i class="fas fa-trophy"></i></div>
+                                <div class="about-stat-number" data-target="40 ">0 </div><span
+                                    style="display: inline-block; font-weight: bold;  font-family: 'Teko', sans-serif; font-size: 1.2rem; margin-left: 5px;">+
+                                    Lakhs</span>
+                                <div class="about-stat-label">Prize Pool </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- OUR PATRONS SECTION -->
+            <div class="about-heading about-not-selectable">
+                <h1 class="about-heading-shadow about-not-selectable">OUR PATRONS</h1>
+                <h2 class="about-heading-small">
+                    <div><div>O</div></div>
+                    <div><div>U</div></div>
+                    <div><div>R</div></div>
+                    <div><div style="margin: 0px 35px 0px 0px;"></div></div>
+                    <div><div>P</div></div>
+                    <div><div>A</div></div>
+                    <div><div>T</div></div>
+                    <div><div>R</div></div>
+                    <div><div>O</div></div>
+                    <div><div>N</div></div>
+                    <div><div>S</div></div>
+                </h2>
+            </div>
+
+            <div class="about-flex about-flex-col about-gap-30 about-mt-50">
+                <!-- Our Patrons Grid -->
+                <div class="about-patrons-grid">
+                    <!-- Dr. P Chinnadurai -->
+                    <div class="about-patron-card">
+                        <div class="about-patron-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
+                            Dr. P Chinnadurai
+                        </div>
+                        <div class="about-patron-info">
+                            <h3 class="about-patron-name">Dr. P Chinnadurai</h3>
+                            <p class="about-patron-role">Secretary & Correspondent</p>
+                        </div>
+                    </div>
+
+                    <!-- Dr. C Sakthi Kumar -->
+                    <div class="about-patron-card">
+                        <div class="about-patron-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
+                            Dr. C SakthiKumar
+                        </div>
+                        <div class="about-patron-info">
+                            <h3 class="about-patron-name">Dr. C SakthiKumar</h3>
+                            <p class="about-patron-role">Director</p>
+                        </div>
+                    </div>
+
+                    <!-- Mrs. C Vijayarajeswari -->
+                    <div class="about-patron-card">
+                        <div class="about-patron-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
+                            Mrs. C Vijayarajeswari
+                        </div>
+                        <div class="about-patron-info">
+                            <h3 class="about-patron-name">Mrs. C Vijayarajeswari</h3>
+                            <p class="about-patron-role">Director</p>
+                        </div>
+                    </div>
+
+                    <!-- Dr. Saranya Sree Sakthi Kumar -->
+                    <div class="about-patron-card">
+                        <div class="about-patron-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; text-align: center;">
+                            Dr. Saranya Sree Sakthi Kumar
+                        </div>
+                        <div class="about-patron-info">
+                            <h3 class="about-patron-name">Dr. Saranya Sree Sakthi Kumar</h3>
+                            <p class="about-patron-role">Director</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CO PATRONS -->
+                <div class="about-text-center about-mb-30 about-mt-30">
+                    <h3 class="about-text-4xl about-font-bold about-text-white" style="font-family: 'Teko', sans-serif;">CO PATRONS</h3>
+                </div>
+
+                <!-- Co Patrons Grid -->
+                <div class="about-patrons-grid about-max-w-600">
+                    <!-- Dr. K. Mani -->
+                    <div class="about-patron-card">
+                        <div class="about-patron-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
+                            Dr.K.Mani
+                        </div>
+                        <div class="about-patron-info">
+                            <h3 class="about-patron-name">Dr.K.Mani</h3>
+                            <p class="about-patron-role">Principal</p>
+                        </div>
+                    </div>
+
+                    <!-- Dr.S.Prasanna Devi -->
+                    <div class="about-patron-card">
+                        <div class="about-patron-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); display: flex; align-items: center; justify-content: center; color: #333; font-size: 12px; text-align: center;">
+                            Dr.S.Prasanna Devi
+                        </div>
+                        <div class="about-patron-info">
+                            <h3 class="about-patron-name">Dr.S.Prasanna Devi</h3>
+                            <p class="about-patron-role">Chief Academic Officer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ORGANIZED BY AND IN ASSOCIATION WITH -->
+                <div class="about-association-container">
+                    <!-- Organized By Container -->
+                    <div class="about-organized-container">
+                        <h3 class="about-organized-title">ORGANISED BY</h3>
+                        <div class="about-logo-container">
+                            <div class="about-logo-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
+                                PEC Logo
+                            </div>
+                            <p class="about-logo-text">Panimalar Engineering College</p>
+                        </div>
+                    </div>
+                    
+                    <!-- In Association With Container -->
+                    <div class="about-associated-container">
+                        <h3 class="about-associated-title">IN ASSOCIATION WITH</h3>
+                        <div class="about-associated-logos">
+                            <div class="about-associated-logo-item">
+                                <div class="about-logo-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; text-align: center;">
+                                    GDG
+                                </div>
+                                <p class="about-logo-text">Google Developer Groups</p>
+                            </div>
+                            <div class="about-associated-logo-item">
+                                <div class="about-logo-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); display: flex; align-items: center; justify-content: center; color: #333; font-size: 14px; text-align: center;">
+                                    IEEE
+                                </div>
+                                <p class="about-logo-text">IEEE</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</body>
+</html>
