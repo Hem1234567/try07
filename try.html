@@ -21,6 +21,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Roboto Mono', monospace;
             height: auto;
@@ -30,6 +34,8 @@
             overflow-x: hidden;
             color: white;
             background-color: #000;
+            touch-action: pan-y;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* starfield background starts */
@@ -40,80 +46,9 @@
             width: 100%;
             height: 100%;
             z-index: -1;
+            pointer-events: none;
         }
         /* starfield background ends */ 
-
-        /* cursor code starts */
-        .cursor-target {
-            background: transparent;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            cursor: none;
-        }
-
-        .cursor-target:hover {
-            background: transparent;
-            transform: scale(1.05);
-        }
-
-        .target-cursor-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transform: translate(-50%, -50%);
-        }
-
-        .target-cursor-dot {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 4px;
-            height: 4px;
-            background: #fff;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            will-change: transform;
-        }
-
-        .target-cursor-corner {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 12px;
-            height: 12px;
-            border: 3px solid #fff;
-            will-change: transform;
-        }
-
-        .corner-tl {
-            transform: translate(-150%, -150%);
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .corner-tr {
-            transform: translate(50%, -150%);
-            border-left: none;
-            border-bottom: none;
-        }
-
-        .corner-br {
-            transform: translate(50%, 50%);
-            border-left: none;
-            border-top: none;
-        }
-
-        .corner-bl {
-            transform: translate(-150%, 50%);
-            border-right: none;
-            border-top: none;
-        }
-        /* cursor code ends */
 
         /*Home section starts*/
         .home-main-container {
@@ -126,6 +61,7 @@
             justify-content: center;
             align-items: center;
             background-color: transparent;
+            z-index: 10;
         }
         
         .home-content-wrapper {
@@ -198,15 +134,13 @@
             justify-content: center;
         }
         
-        .home-button-row .home-hud-button {
+        .home-galaxy-button {
+            position: relative;
+            height: 3rem;
             flex: 1;
             min-width: 0;
-        }
-
-        .home-galaxy-button, .home-new-button-wrapper {
-            position: relative;
-            z-index: 1000;
-            width: 100%;
+            z-index: 1002;
+            touch-action: manipulation;
         }
         
         /* Space Button Wrapper */
@@ -214,6 +148,7 @@
             width: 90%;
             display: flex;
             justify-content: center;
+            z-index: 1001;
         }
 
         /* Timer Styles */
@@ -222,6 +157,7 @@
             display: flex;
             justify-content: center;
             margin-top: 30px;
+            z-index: 1000;
         }
         
         .home-timer {
@@ -270,115 +206,16 @@
         }
 
         /* Galaxy Button Styles */
-        .home-galaxy-button {
-          position: relative;
-          height: 3rem;
-          flex: 1;
-          min-width: 0;
-        }
-        
         .home-galaxy-button .home-text {
           translate: 2% -6%;
           letter-spacing: 0.01ch;
           color: hsl(0 0% calc(60% + (var(--active, 0) * 26%)));
-          z-index: 999;
+          z-index: 1003;
           padding: 0 34px;
           font-weight: 600;
           font-size: 0.9rem;
           text-transform: uppercase;
-        }
-        
-        .home-galaxy-button .home-text::before {
-          content: "";
-          position: absolute;
-          top: -290%;
-          left: 90%;
-          rotate: -45deg;
-          width: 5em;
-          height: 1px;
-          background: linear-gradient(90deg, #ffffff, transparent);
-          animation: home-shootingStar 4s ease-in-out infinite;
-          transition: 1s ease;
-          z-index: -1;
-          animation-delay: 1s;
-          display: none;
-        }
-        
-        .home-galaxy-button .home-text::after {
-          content: "";
-          display: none;
-          position: absolute;
-          top: -290%;
-          left: 10%;
-          rotate: -45deg;
-          width: 5em;
-          height: 1px;
-          background: linear-gradient(90deg, #ffffff, transparent);
-          animation: home-shootingStar 7s ease-in-out infinite;
-          animation-delay: 3s;
-        }
-        
-        .home-space-button:hover .home-text::before,
-        .home-space-button:hover .home-text::after {
-          display: block;
-        }
-        
-        .home-galaxy::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 2px;
-          height: 2px;
-          border-radius: 50%;
-          opacity: 1;
-          box-shadow:
-            140px 20px #fff,
-            425px 20px #fff,
-            70px 120px #fff,
-            20px 130px #fff,
-            110px 80px #fff,
-            280px 80px #fff,
-            250px 350px #fff,
-            280px 230px #fff,
-            220px 190px #fff,
-            450px 100px #fff,
-            380px 80px #fff,
-            520px 50px #fff;
-          z-index: -1;
-          transition: all 1.5s ease-in-out;
-          animation: home-glowing-stars 1s linear alternate infinite;
-          animation-delay: 0.4s;
-        }
-        
-        .home-galaxy::after {
-          content: "";
-          position: absolute;
-          top: -150px;
-          left: -65px;
-          width: 2px;
-          height: 2px;
-          border-radius: 50%;
-          opacity: 1;
-          box-shadow:
-            490px 330px #fff,
-            420px 300px #fff,
-            320px 280px #fff,
-            380px 350px #fff,
-            546px 170px #fff,
-            420px 180px #fff,
-            370px 150px #fff,
-            200px 250px #fff,
-            80px 20px #fff,
-            190px 50px #fff,
-            270px 20px #fff,
-            120px 230px #fff,
-            350px -1px #fff,
-            150px 369px #fff;
-          z-index: -1;
-          transition: all 2s ease-in-out;
-          animation: home-glowing-stars 1s linear alternate infinite;
-          animation-delay: 0.8s;
+          pointer-events: none;
         }
         
         .home-space-button {
@@ -426,6 +263,13 @@
           width: 100%;
           height: 100%;
           justify-content: center;
+          z-index: 1004;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
         }
         
         /* Blue theme for Visit 2.0 button */
@@ -451,93 +295,11 @@
             0 -0.05em 0 0 hsl(220, calc(var(--active) * 97%), calc(var(--active) * 10%)) inset;
         }
         
-        .home-blue-theme:active {
-          --bg: radial-gradient(
-                120% 120% at 126% 126%,
-                hsl(220 calc(var(--active) * 97%) 98% / calc(var(--active) * 0.9)) 40%,
-                transparent 50%
-              )
-              calc(100px - (var(--active) * 100px)) 0 / 100% 100% no-repeat,
-            radial-gradient(
-                120% 120% at 120% 120%,
-                hsl(220 calc(var(--active) * 97%) 70% / calc(var(--active) * 1)) 30%,
-                transparent 70%
-              )
-              calc(100px - (var(--active) * 100px)) 0 / 100% 100% no-repeat,
-            hsl(220 calc(var(--active) * 100%) calc(12% - (var(--active) * 8%)));
-          box-shadow:
-            0 0 calc(var(--active) * 6em) calc(var(--active) * 3em)
-              hsl(220 97% 61% / 0.5),
-            0 0.05em 0 0
-              hsl(220 calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset,
-            0 -0.05em 0 0 hsl(220 calc(var(--active) * 97%) calc(var(--active) * 10%)) inset;
-        }
-        
         .home-space-button:active {
           scale: 1;
+          transform: scale(0.98);
         }
 
-        /* Apply wobble animation on active button */
-        .home-space-button:active .home-text {
-          font-weight: 300;
-          animation:
-            home-wobble 0.6s ease-in-out infinite,
-            home-blurMove 1.5s ease-in-out infinite;
-          text-shadow:
-            5px 5px 20px rgba(255, 255, 255, 0.8),
-            10px 10px 30px rgba(255, 0, 255, 0.6);
-        }
-
-        /* Wobble animation */
-        @keyframes home-wobble {
-          0%,
-          100% {
-            transform: translate(0, 0);
-          }
-          25% {
-            transform: translate(-2px, -10px);
-          }
-          50% {
-            transform: translate(2px, 3px);
-          }
-          75% {
-            transform: translate(-1px, 5px);
-          }
-        }
-
-        /* Blur move animation */
-        @keyframes home-blurMove {
-          0%,
-          100% {
-            text-shadow:
-              5px 5px 20px rgba(255, 255, 255, 0.8),
-              10px 10px 30px rgba(255, 0, 255, 0.6);
-          }
-          50% {
-            filter: blur(1px);
-            text-shadow:
-              10px 10px 25px rgba(255, 255, 255, 0.8),
-              15px 15px 35px rgba(255, 0, 255, 0.6);
-          }
-        }
-
-        .home-galaxy:active::before {
-          animation: home-circling 2s linear infinite;
-        }
-        
-        .home-galaxy:active::after {
-          animation: home-circling 1.5s linear infinite;
-        }
-
-        @keyframes home-circling {
-          0% {
-            transform: translate(-10px, -20%) rotate(0deg);
-          }
-          100% {
-            transform: translate(-10px, -20%) rotate(200deg);
-          }
-        }
-        
         .home-galaxy {
           position: absolute;
           width: 100%;
@@ -548,6 +310,7 @@
           overflow: hidden;
           opacity: var(--active);
           transition: opacity 0.25s;
+          pointer-events: none;
         }
 
         .home-backdrop {
@@ -556,44 +319,11 @@
           background: var(--bg);
           border-radius: 2rem;
           transition: background 0.25s;
+          pointer-events: none;
         }
 
         .home-space-button:is(:hover, :focus-visible) {
           --active: 1;
-        }
-
-        /* ANIMATIONS */
-        @keyframes home-shootingStar {
-          0% {
-            transform: translateX(0) translateY(0);
-            opacity: 1;
-          }
-          50% {
-            transform: translateX(-55em) translateY(0);
-            opacity: 1;
-          }
-          70% {
-            transform: translateX(-70em) translateY(0);
-            opacity: 0;
-          }
-          100% {
-            transform: translateX(0) translateY(0);
-            opacity: 0;
-          }
-        }
-
-        @keyframes home-glowing-stars {
-          0% {
-            opacity: 0;
-          }
-
-          50% {
-            opacity: 1;
-          }
-
-          100% {
-            opacity: 0;
-          }
         }
 
         /* Devfolio Button Styling */
@@ -603,6 +333,8 @@
             align-items: center;
             border-radius: 5rem;
             overflow: hidden;
+            z-index: 1001;
+            touch-action: manipulation;
         }
 
         /* Responsive Styles */
@@ -640,8 +372,15 @@
                 gap: 30px;
             }
             
-            .home-space-button, .home-space-btn {
+            .home-space-button {
                 width: 100%;
+                min-height: 50px;
+                font-size: 1.1rem;
+                padding: 0.8em 1.1em;
+            }
+            
+            .home-galaxy-button {
+                min-height: 50px;
             }
         }
         
@@ -685,59 +424,21 @@
             .home-space-btn {
                 width: 100%;
             }
-        }
-        
-        @media (min-width: 1024px) {
-            .home-hud-title {
-                font-size: 6rem;
-            }
-            
-            .home-button-container {
-                max-width: 800px;
-            }
             
             .home-space-button {
-                width: 380px;
+                font-size: 1rem;
+                padding: 0.7em 1em;
             }
             
-            .home-space-btn {
-                width: 780px;
-            }
-            
-            .home-button-row {
-                gap: 20px;
-            }
-            
-            .home-title-text {
-                margin-top: 15px;
-            }
-            
-            .home-content-wrapper {
-                gap: 50px;
+            .home-galaxy-button .home-text {
+                font-size: 0.8rem;
+                padding: 0 20px;
             }
         }
 
-        @media (min-width: 1440px) {
-            .home-content-wrapper {
-                gap: 60px;
-            }
-            
-            .home-hud-title {
-                font-size: 7rem;
-            }
+        .home-space-button * {
+            pointer-events: none;
         }
-
-        @media (min-width: 1920px) {
-            .home-content-wrapper {
-                gap: 70px;
-            }
-            
-            .home-hud-title {
-                font-size: 8rem;
-            }
-        }
-
-        /*home section ends*/      
 
         /*About section starts*/
         .about-container {
@@ -747,14 +448,13 @@
             padding: 0 20px;
         }
         
-        /* Section Styling - FIXED SCROLLING ISSUE */
         .about-section {
             position: relative;
             padding: 80px 0;
             background: transparent;
             z-index: 30;
-            min-height: 100vh; /* Changed from height to min-height */
-            height: auto; /* Allow content to determine height */
+            min-height: 100vh;
+            height: auto;
         }
         
         .about-section .about-absolute-inset {
@@ -910,189 +610,6 @@
             color: white;
             margin-top: 5px;
             font-family: 'Teko', sans-serif;
-        }
-        
-        /* Cosmic Card Styles */
-        .about-cosmic-card {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(125, 227, 255, 0.2);
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            padding: 20px;
-        }
-        
-        .about-cosmic-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(125, 227, 255, 0.15);
-            border-color: rgba(125, 227, 255, 0.4);
-        }
-        
-        /* Grid Layout */
-        .about-grid {
-            display: grid;
-        }
-        
-        .about-grid-cols-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
-        /* Flexbox */
-        .about-flex {
-            display: flex;
-        }
-        
-        .about-flex-col {
-            flex-direction: column;
-        }
-        
-        .about-items-center {
-            align-items: center;
-        }
-        
-        .about-justify-center {
-            justify-content: center;
-        }
-        
-        /* Spacing */
-        .about-gap-20 {
-            gap: 20px;
-        }
-        
-        .about-gap-30 {
-            gap: 30px;
-        }
-        
-        .about-mx-auto {
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .about-mb-30 {
-            margin-bottom: 30px;
-        }
-        
-        .about-mb-50 {
-            margin-bottom: 50px;
-        }
-        
-        .about-mt-30 {
-            margin-top: 30px;
-        }
-        
-        .about-mt-50 {
-            margin-top: 50px;
-        }
-        
-        /* Text Styles */
-        .about-text-center {
-            text-align: center;
-        }
-        
-        .about-text-left {
-            text-align: left;
-        }
-        
-        .about-text-xl {
-            font-size: 20px;
-            line-height: 1.5;
-        }
-        
-        .about-text-2xl {
-            font-size: 24px;
-            line-height: 1.5;
-        }
-        
-        .about-text-3xl {
-            font-size: 28px;
-            line-height: 1.3;
-        }
-        
-        .about-text-4xl {
-            font-size: 36px;
-            line-height: 1.2;
-        }
-        
-        .about-font-bold {
-            font-weight: 700;
-        }
-        
-        .about-text-white {
-            color: white;
-        }
-        
-        .about-text-cyan {
-            color: #7ee3ff;
-        }
-        
-        .about-text-gray {
-            color: #9ca3af;
-        }
-        
-        /* Sizing */
-        .about-w-full {
-            width: 100%;
-        }
-        
-        .about-w-120 {
-            width: 120px;
-        }
-        
-        .about-w-150 {
-            width: 150px;
-        }
-        
-        .about-h-120 {
-            height: 120px;
-        }
-        
-        .about-h-150 {
-            height: 150px;
-        }
-        
-        .about-min-h-180 {
-            min-height: 180px;
-        }
-        
-        /* Padding */
-        .about-p-20 {
-            padding: 20px;
-        }
-        
-        /* Positioning */
-        .about-relative {
-            position: relative;
-        }
-        
-        .about-absolute {
-            position: absolute;
-        }
-        
-        /* Border */
-        .about-border-2 {
-            border-width: 2px;
-        }
-        
-        .about-border-cyan {
-            border-color: rgba(125, 227, 255, 0.5);
-        }
-        
-        .about-rounded-full {
-            border-radius: 9999px;
-        }
-        
-        /* Overflow */
-        .about-overflow-hidden {
-            overflow: hidden;
-        }
-        
-        /* Object Fit */
-        .about-object-cover {
-            object-fit: cover;
-        }
-        
-        .about-object-contain {
-            object-fit: contain;
         }
         
         /* Association Container */
@@ -1273,10 +790,6 @@
                 max-width: 500px;
             }
             
-            .about-text-4xl {
-                font-size: 28px;
-            }
-            
             .about-association-container {
                 flex-direction: column;
                 align-items: center;
@@ -1328,10 +841,6 @@
                 font-size: 18px;
             }
             
-            .about-text-4xl {
-                font-size: 24px;
-            }
-            
             .about-organized-container, .about-associated-container {
                 padding: 20px;
             }
@@ -1348,23 +857,6 @@
             }
         }
         
-        /* Animation for text */
-        @keyframes about-fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .about-animate-fade-in-up {
-            animation: about-fadeInUp 0.6s ease-out forwards;
-        }
-        
-        /* Not selectable */
         .about-not-selectable {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -1423,11 +915,11 @@
             align-items: center;
         }
 
-        /* Dome Gallery Styles - Preserved from original */
+        /* Dome Gallery Styles */
         .world-sphere-root {
             position: relative;
             width: 100%;
-            height: 70vh;
+            height: 80vh;
             --radius: 520px;
             --viewer-pad: 72px;
             --circ: calc(var(--radius) * 3.14);
@@ -1454,7 +946,7 @@
             display: grid;
             place-items: center;
             overflow: hidden;
-            touch-action: pan-y pinch-zoom; /* Changed for mobile scrolling */
+            touch-action: pan-y pinch-zoom;
             user-select: none;
             -webkit-user-select: none;
             background: transparent;
@@ -1648,10 +1140,6 @@
             .dome-gallery-heading-small {
                 font-size: 48px;
             }
-            
-            .world-main {
-                touch-action: pan-y pinch-zoom; /* Allow vertical scrolling */
-            }
         }
 
         @media (max-width: 480px) {
@@ -1676,6 +1164,108 @@
             
             .dome-gallery-heading-small {
                 font-size: 45px;
+            }
+        }
+
+        /* Glimpse Section */
+        .glimpse-section {
+            position: relative;
+            background: #000;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 20;
+        }
+
+        /* Flashback Title */
+        .glimpse-title {
+            position: absolute;
+            top: 20px;
+            text-align: center;
+            width: 100%;
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 2px;
+            font-family: 'Transformers', sans-serif;
+            text-shadow: 2px 2px 5px black;
+            z-index: 2;
+        }
+
+        /* Video Frame */
+        .video-container {
+            position: relative;
+            width: 800px;
+            max-width: 95%;
+            border: 3px solid white;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 450px;
+        }
+
+        /* Corner Lines */
+        .video-container::before,
+        .video-container::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 3px solid white;
+        }
+
+        .video-container::before {
+            top: -3px;
+            left: -3px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .video-container::after {
+            bottom: -3px;
+            right: -3px;
+            border-left: none;
+            border-top: none;
+        }
+        
+        /* Responsive Styles for Glimpse Section */
+        @media (max-width: 768px) {
+            .glimpse-title {
+                font-size: 3rem;
+            }
+            
+            .video-container {
+                padding: 15px;
+            }
+            
+            .video-container iframe {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .glimpse-title {
+                font-size: 2.5rem;
+            }
+            
+            .video-container {
+                padding: 10px;
+            }
+            
+            .video-container iframe {
+                height: 250px;
+            }
+            
+            .video-container::before,
+            .video-container::after {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -1706,7 +1296,7 @@
                 <div class="home-button-container">
                     <div class="home-button-row">
                         <!-- Visit 2.0 button with blue theme -->
-                        <div class="home-galaxy-button cursor-target">
+                        <div class="home-galaxy-button">
                             <button class="home-space-button home-blue-theme" onclick="window.location.href='https://two.pechacks.org/'">
                                 <span class="home-backdrop"></span>
                                 <span class="home-galaxy"></span>
@@ -1714,7 +1304,7 @@
                             </button>
                         </div>
                         <!-- Community button with original theme -->
-                        <div class="home-galaxy-button cursor-target">
+                        <div class="home-galaxy-button">
                             <button class="home-space-button" onclick="window.location.href='https://chat.whatsapp.com/GlkLriPcKKZJYduudh6RbI?mode=wwt'">
                                 <span class="home-backdrop"></span>
                                 <span class="home-galaxy"></span>
@@ -1999,6 +1589,17 @@
         </div>
     </section>
 
+    <!-- Glimpse Section -->
+    <section id="glimpse" class="glimpse-section">
+        <div class="glimpse-title">GLIMPSE</div>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ldYAX1xME0M?si=SNC_oTtGj66hdb06"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </section>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
         // starfield background starts
@@ -2060,366 +1661,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", starfieldInit);
-
-        // starfield background ends
-
-        //cursor code starts 
-        class TargetCursor {
-          constructor(options = {}) {
-            this.targetSelector = options.targetSelector || ".cursor-target";
-            this.spinDuration = options.spinDuration || 2;
-            this.hideDefaultCursor = options.hideDefaultCursor !== false;
-
-            this.constants = {
-              borderWidth: 3,
-              cornerSize: 12,
-              parallaxStrength: 0.00005,
-            };
-
-            this.activeTarget = null;
-            this.currentTargetMove = null;
-            this.currentLeaveHandler = null;
-            this.isAnimatingToTarget = false;
-            this.resumeTimeout = null;
-            this.spinTl = null;
-
-            this.init();
-          }
-
-          init() {
-            this.createCursor();
-            this.setupEventListeners();
-
-            if (this.hideDefaultCursor) {
-              document.body.style.cursor = "none";
-            }
-          }
-
-          createCursor() {
-            this.cursorWrapper = document.createElement("div");
-            this.cursorWrapper.className = "target-cursor-wrapper";
-
-            this.dot = document.createElement("div");
-            this.dot.className = "target-cursor-dot";
-            this.cursorWrapper.appendChild(this.dot);
-
-            const corners = [
-              { className: "target-cursor-corner corner-tl" },
-              { className: "target-cursor-corner corner-tr" },
-              { className: "target-cursor-corner corner-br" },
-              { className: "target-cursor-corner corner-bl" },
-            ];
-
-            corners.forEach((corner) => {
-              const cornerEl = document.createElement("div");
-              cornerEl.className = corner.className;
-              this.cursorWrapper.appendChild(cornerEl);
-            });
-
-            document.body.appendChild(this.cursorWrapper);
-            this.corners = this.cursorWrapper.querySelectorAll(".target-cursor-corner");
-
-            gsap.set(this.cursorWrapper, {
-              xPercent: -50,
-              yPercent: -50,
-              x: window.innerWidth / 2,
-              y: window.innerHeight / 2,
-            });
-
-            this.createSpinTimeline();
-          }
-
-          createSpinTimeline() {
-            if (this.spinTl) {
-              this.spinTl.kill();
-            }
-
-            this.spinTl = gsap.timeline({ repeat: -1 }).to(this.cursorWrapper, {
-              rotation: "+=360",
-              duration: this.spinDuration,
-              ease: "none",
-            });
-          }
-
-          moveCursor(x, y) {
-            if (!this.cursorWrapper) return;
-
-            gsap.to(this.cursorWrapper, {
-              x,
-              y,
-              duration: 0.1,
-              ease: "power3.out",
-            });
-          }
-
-          cleanupTarget(target) {
-            if (this.currentTargetMove) {
-              target.removeEventListener("mousemove", this.currentTargetMove);
-            }
-            if (this.currentLeaveHandler) {
-              target.removeEventListener("mouseleave", this.currentLeaveHandler);
-            }
-            this.currentTargetMove = null;
-            this.currentLeaveHandler = null;
-          }
-
-          setupEventListeners() {
-            this.moveHandler = (e) => this.moveCursor(e.clientX, e.clientY);
-            window.addEventListener("mousemove", this.moveHandler);
-
-            this.scrollHandler = () => {
-              if (!this.activeTarget || !this.cursorWrapper) return;
-
-              const mouseX = gsap.getProperty(this.cursorWrapper, "x");
-              const mouseY = gsap.getProperty(this.cursorWrapper, "y");
-
-              const elementUnderMouse = document.elementFromPoint(mouseX, mouseY);
-              const isStillOverTarget =
-                elementUnderMouse &&
-                (elementUnderMouse === this.activeTarget ||
-                  elementUnderMouse.closest(this.targetSelector) === this.activeTarget);
-
-              if (!isStillOverTarget) {
-                if (this.currentLeaveHandler) {
-                  this.currentLeaveHandler();
-                }
-              }
-            };
-
-            window.addEventListener("scroll", this.scrollHandler, { passive: true });
-
-            this.mouseDownHandler = () => {
-              if (!this.dot) return;
-              gsap.to(this.dot, { scale: 0.7, duration: 0.3 });
-              gsap.to(this.cursorWrapper, { scale: 0.9, duration: 0.2 });
-            };
-
-            this.mouseUpHandler = () => {
-              if (!this.dot) return;
-              gsap.to(this.dot, { scale: 1, duration: 0.3 });
-              gsap.to(this.cursorWrapper, { scale: 1, duration: 0.2 });
-            };
-
-            window.addEventListener("mousedown", this.mouseDownHandler);
-            window.addEventListener("mouseup", this.mouseUpHandler);
-
-            this.enterHandler = (e) => {
-              const directTarget = e.target;
-
-              const allTargets = [];
-              let current = directTarget;
-              while (current && current !== document.body) {
-                if (current.matches(this.targetSelector)) {
-                  allTargets.push(current);
-                }
-                current = current.parentElement;
-              }
-
-              const target = allTargets[0] || null;
-              if (!target || !this.cursorWrapper || !this.corners) return;
-
-              if (this.activeTarget === target) return;
-
-              if (this.activeTarget) {
-                this.cleanupTarget(this.activeTarget);
-              }
-
-              if (this.resumeTimeout) {
-                clearTimeout(this.resumeTimeout);
-                this.resumeTimeout = null;
-              }
-
-              this.activeTarget = target;
-              const corners = Array.from(this.corners);
-              corners.forEach((corner) => {
-                gsap.killTweensOf(corner);
-              });
-
-              gsap.killTweensOf(this.cursorWrapper, "rotation");
-              this.spinTl?.pause();
-
-              gsap.set(this.cursorWrapper, { rotation: 0 });
-
-              const updateCorners = (mouseX, mouseY) => {
-                const rect = target.getBoundingClientRect();
-                const cursorRect = this.cursorWrapper.getBoundingClientRect();
-
-                const cursorCenterX = cursorRect.left + cursorRect.width / 2;
-                const cursorCenterY = cursorRect.top + cursorRect.height / 2;
-
-                const [tlc, trc, brc, blc] = Array.from(this.corners);
-
-                const { borderWidth, cornerSize, parallaxStrength } = this.constants;
-
-                let tlOffset = {
-                  x: rect.left - cursorCenterX - borderWidth,
-                  y: rect.top - cursorCenterY - borderWidth,
-                };
-                let trOffset = {
-                  x: rect.right - cursorCenterX + borderWidth - cornerSize,
-                  y: rect.top - cursorCenterY - borderWidth,
-                };
-                let brOffset = {
-                  x: rect.right - cursorCenterX + borderWidth - cornerSize,
-                  y: rect.bottom - cursorCenterY + borderWidth - cornerSize,
-                };
-                let blOffset = {
-                  x: rect.left - cursorCenterX - borderWidth,
-                  y: rect.bottom - cursorCenterY + borderWidth - cornerSize,
-                };
-
-                if (mouseX !== undefined && mouseY !== undefined) {
-                  const targetCenterX = rect.left + rect.width / 2;
-                  const targetCenterY = rect.top + rect.height / 2;
-                  const mouseOffsetX = (mouseX - targetCenterX) * parallaxStrength;
-                  const mouseOffsetY = (mouseY - targetCenterY) * parallaxStrength;
-
-                  tlOffset.x += mouseOffsetX;
-                  tlOffset.y += mouseOffsetY;
-                  trOffset.x += mouseOffsetX;
-                  trOffset.y += mouseOffsetY;
-                  brOffset.x += mouseOffsetX;
-                  brOffset.y += mouseOffsetY;
-                  blOffset.x += mouseOffsetX;
-                  blOffset.y += mouseOffsetY;
-                }
-
-                const tl = gsap.timeline();
-                const corners = [tlc, trc, brc, blc];
-                const offsets = [tlOffset, trOffset, brOffset, blOffset];
-
-                corners.forEach((corner, index) => {
-                  tl.to(
-                    corner,
-                    {
-                      x: offsets[index].x,
-                      y: offsets[index].y,
-                      duration: 0.2,
-                      ease: "power2.out",
-                    },
-                    0
-                  );
-                });
-              };
-
-              this.isAnimatingToTarget = true;
-              updateCorners();
-
-              setTimeout(() => {
-                this.isAnimatingToTarget = false;
-              }, 1);
-
-              let moveThrottle = null;
-              const targetMove = (ev) => {
-                if (moveThrottle || this.isAnimatingToTarget) return;
-                moveThrottle = requestAnimationFrame(() => {
-                  const mouseEvent = ev;
-                  updateCorners(mouseEvent.clientX, mouseEvent.clientY);
-                  moveThrottle = null;
-                });
-              };
-
-              const leaveHandler = () => {
-                this.activeTarget = null;
-                this.isAnimatingToTarget = false;
-
-                if (this.corners) {
-                  const corners = Array.from(this.corners);
-                  gsap.killTweensOf(corners);
-
-                  const { cornerSize } = this.constants;
-                  const positions = [
-                    { x: -cornerSize * 1.5, y: -cornerSize * 1.5 },
-                    { x: cornerSize * 0.5, y: -cornerSize * 1.5 },
-                    { x: cornerSize * 0.5, y: cornerSize * 0.5 },
-                    { x: -cornerSize * 1.5, y: cornerSize * 0.5 },
-                  ];
-
-                  const tl = gsap.timeline();
-                  corners.forEach((corner, index) => {
-                    tl.to(
-                      corner,
-                      {
-                        x: positions[index].x,
-                        y: positions[index].y,
-                        duration: 0.3,
-                        ease: "power3.out",
-                      },
-                      0
-                    );
-                  });
-                }
-
-                this.resumeTimeout = setTimeout(() => {
-                  if (!this.activeTarget && this.cursorWrapper && this.spinTl) {
-                    const currentRotation = gsap.getProperty(
-                      this.cursorWrapper,
-                      "rotation"
-                    );
-                    const normalizedRotation = currentRotation % 360;
-
-                    this.spinTl.kill();
-                    this.spinTl = gsap.timeline({ repeat: -1 }).to(this.cursorWrapper, {
-                      rotation: "+=360",
-                      duration: this.spinDuration,
-                      ease: "none",
-                    });
-
-                    gsap.to(this.cursorWrapper, {
-                      rotation: normalizedRotation + 360,
-                      duration: this.spinDuration * (1 - normalizedRotation / 360),
-                      ease: "none",
-                      onComplete: () => {
-                        this.spinTl?.restart();
-                      },
-                    });
-                  }
-                  this.resumeTimeout = null;
-                }, 50);
-
-                this.cleanupTarget(target);
-              };
-
-              this.currentTargetMove = targetMove;
-              this.currentLeaveHandler = leaveHandler;
-
-              target.addEventListener("mousemove", targetMove);
-              target.addEventListener("mouseleave", leaveHandler);
-            };
-
-            window.addEventListener("mouseover", this.enterHandler, { passive: true });
-          }
-
-          destroy() {
-            window.removeEventListener("mousemove", this.moveHandler);
-            window.removeEventListener("mouseover", this.enterHandler);
-            window.removeEventListener("scroll", this.scrollHandler);
-            window.removeEventListener("mousedown", this.mouseDownHandler);
-            window.removeEventListener("mouseup", this.mouseUpHandler);
-
-            if (this.activeTarget) {
-              this.cleanupTarget(this.activeTarget);
-            }
-
-            this.spinTl?.kill();
-
-            if (this.cursorWrapper) {
-              this.cursorWrapper.remove();
-            }
-
-            document.body.style.cursor = "";
-          }
-        }
-
-        // Initialize the cursor when the page loads
-        document.addEventListener("DOMContentLoaded", () => {
-          const cursor = new TargetCursor({
-            targetSelector: ".cursor-target",
-            spinDuration: 2,
-            hideDefaultCursor: true,
-          });
-        });
-        // cursor code ends
 
         //Home section starts
         // Countdown timer
@@ -3155,6 +2396,23 @@
         // Initialize the gallery when the DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             new WorldDomeGallery();
+        });
+
+        // Mobile touch event handler to ensure buttons work
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add touch event listeners to ensure buttons work on mobile
+            const buttons = document.querySelectorAll('.home-space-button');
+            
+            buttons.forEach(button => {
+                // Prevent default touch behavior that might interfere
+                button.addEventListener('touchstart', function(e) {
+                    e.stopPropagation();
+                }, { passive: true });
+                
+                button.addEventListener('touchend', function(e) {
+                    e.stopPropagation();
+                }, { passive: true });
+            });
         });
     </script>
 </body>
