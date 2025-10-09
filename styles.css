@@ -130,6 +130,7 @@
             width: 100%;
             height: 100%;
             gap: 40px;
+
         }
         
         .home-title-container {
@@ -199,7 +200,7 @@
 
         .home-galaxy-button, .home-new-button-wrapper {
             position: relative;
-            z-index: 1000;
+            z-index: 30;
             width: 100%;
         }
         
@@ -269,6 +270,7 @@
           height: 3rem;
           flex: 1;
           min-width: 0;
+          
         }
         
         .home-galaxy-button .home-text {
