@@ -58,363 +58,363 @@ function starfieldInit() {
 
 document.addEventListener("DOMContentLoaded", starfieldInit);
 
-//cursor code starts 
-        class TargetCursor {
-          constructor(options = {}) {
-            this.targetSelector = options.targetSelector || ".cursor-target";
-            this.spinDuration = options.spinDuration || 2;
-            this.hideDefaultCursor = options.hideDefaultCursor !== false;
+//cursor code starts
+class TargetCursor {
+  constructor(options = {}) {
+    this.targetSelector = options.targetSelector || ".cursor-target";
+    this.spinDuration = options.spinDuration || 2;
+    this.hideDefaultCursor = options.hideDefaultCursor !== false;
 
-            this.constants = {
-              borderWidth: 3,
-              cornerSize: 12,
-              parallaxStrength: 0.00005,
-            };
+    this.constants = {
+      borderWidth: 3,
+      cornerSize: 12,
+      parallaxStrength: 0.00005,
+    };
 
-            this.activeTarget = null;
-            this.currentTargetMove = null;
-            this.currentLeaveHandler = null;
-            this.isAnimatingToTarget = false;
-            this.resumeTimeout = null;
-            this.spinTl = null;
+    this.activeTarget = null;
+    this.currentTargetMove = null;
+    this.currentLeaveHandler = null;
+    this.isAnimatingToTarget = false;
+    this.resumeTimeout = null;
+    this.spinTl = null;
 
-            this.init();
-          }
+    this.init();
+  }
 
-          init() {
-            this.createCursor();
-            this.setupEventListeners();
+  init() {
+    this.createCursor();
+    this.setupEventListeners();
 
-            if (this.hideDefaultCursor) {
-              document.body.style.cursor = "none";
-            }
-          }
+    if (this.hideDefaultCursor) {
+      document.body.style.cursor = "none";
+    }
+  }
 
-          createCursor() {
-            this.cursorWrapper = document.createElement("div");
-            this.cursorWrapper.className = "target-cursor-wrapper";
+  createCursor() {
+    this.cursorWrapper = document.createElement("div");
+    this.cursorWrapper.className = "target-cursor-wrapper";
 
-            this.dot = document.createElement("div");
-            this.dot.className = "target-cursor-dot";
-            this.cursorWrapper.appendChild(this.dot);
+    this.dot = document.createElement("div");
+    this.dot.className = "target-cursor-dot";
+    this.cursorWrapper.appendChild(this.dot);
 
-            const corners = [
-              { className: "target-cursor-corner corner-tl" },
-              { className: "target-cursor-corner corner-tr" },
-              { className: "target-cursor-corner corner-br" },
-              { className: "target-cursor-corner corner-bl" },
-            ];
+    const corners = [
+      { className: "target-cursor-corner corner-tl" },
+      { className: "target-cursor-corner corner-tr" },
+      { className: "target-cursor-corner corner-br" },
+      { className: "target-cursor-corner corner-bl" },
+    ];
 
-            corners.forEach((corner) => {
-              const cornerEl = document.createElement("div");
-              cornerEl.className = corner.className;
-              this.cursorWrapper.appendChild(cornerEl);
-            });
+    corners.forEach((corner) => {
+      const cornerEl = document.createElement("div");
+      cornerEl.className = corner.className;
+      this.cursorWrapper.appendChild(cornerEl);
+    });
 
-            document.body.appendChild(this.cursorWrapper);
-            this.corners = this.cursorWrapper.querySelectorAll(".target-cursor-corner");
+    document.body.appendChild(this.cursorWrapper);
+    this.corners = this.cursorWrapper.querySelectorAll(".target-cursor-corner");
 
-            gsap.set(this.cursorWrapper, {
-              xPercent: -50,
-              yPercent: -50,
-              x: window.innerWidth / 2,
-              y: window.innerHeight / 2,
-            });
+    gsap.set(this.cursorWrapper, {
+      xPercent: -50,
+      yPercent: -50,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    });
 
-            this.createSpinTimeline();
-          }
+    this.createSpinTimeline();
+  }
 
-          createSpinTimeline() {
-            if (this.spinTl) {
-              this.spinTl.kill();
-            }
+  createSpinTimeline() {
+    if (this.spinTl) {
+      this.spinTl.kill();
+    }
 
+    this.spinTl = gsap.timeline({ repeat: -1 }).to(this.cursorWrapper, {
+      rotation: "+=360",
+      duration: this.spinDuration,
+      ease: "none",
+    });
+  }
+
+  moveCursor(x, y) {
+    if (!this.cursorWrapper) return;
+
+    gsap.to(this.cursorWrapper, {
+      x,
+      y,
+      duration: 0.1,
+      ease: "power3.out",
+    });
+  }
+
+  cleanupTarget(target) {
+    if (this.currentTargetMove) {
+      target.removeEventListener("mousemove", this.currentTargetMove);
+    }
+    if (this.currentLeaveHandler) {
+      target.removeEventListener("mouseleave", this.currentLeaveHandler);
+    }
+    this.currentTargetMove = null;
+    this.currentLeaveHandler = null;
+  }
+
+  setupEventListeners() {
+    this.moveHandler = (e) => this.moveCursor(e.clientX, e.clientY);
+    window.addEventListener("mousemove", this.moveHandler);
+
+    this.scrollHandler = () => {
+      if (!this.activeTarget || !this.cursorWrapper) return;
+
+      const mouseX = gsap.getProperty(this.cursorWrapper, "x");
+      const mouseY = gsap.getProperty(this.cursorWrapper, "y");
+
+      const elementUnderMouse = document.elementFromPoint(mouseX, mouseY);
+      const isStillOverTarget =
+        elementUnderMouse &&
+        (elementUnderMouse === this.activeTarget ||
+          elementUnderMouse.closest(this.targetSelector) === this.activeTarget);
+
+      if (!isStillOverTarget) {
+        if (this.currentLeaveHandler) {
+          this.currentLeaveHandler();
+        }
+      }
+    };
+
+    window.addEventListener("scroll", this.scrollHandler, { passive: true });
+
+    this.mouseDownHandler = () => {
+      if (!this.dot) return;
+      gsap.to(this.dot, { scale: 0.7, duration: 0.3 });
+      gsap.to(this.cursorWrapper, { scale: 0.9, duration: 0.2 });
+    };
+
+    this.mouseUpHandler = () => {
+      if (!this.dot) return;
+      gsap.to(this.dot, { scale: 1, duration: 0.3 });
+      gsap.to(this.cursorWrapper, { scale: 1, duration: 0.2 });
+    };
+
+    window.addEventListener("mousedown", this.mouseDownHandler);
+    window.addEventListener("mouseup", this.mouseUpHandler);
+
+    this.enterHandler = (e) => {
+      const directTarget = e.target;
+
+      const allTargets = [];
+      let current = directTarget;
+      while (current && current !== document.body) {
+        if (current.matches(this.targetSelector)) {
+          allTargets.push(current);
+        }
+        current = current.parentElement;
+      }
+
+      const target = allTargets[0] || null;
+      if (!target || !this.cursorWrapper || !this.corners) return;
+
+      if (this.activeTarget === target) return;
+
+      if (this.activeTarget) {
+        this.cleanupTarget(this.activeTarget);
+      }
+
+      if (this.resumeTimeout) {
+        clearTimeout(this.resumeTimeout);
+        this.resumeTimeout = null;
+      }
+
+      this.activeTarget = target;
+      const corners = Array.from(this.corners);
+      corners.forEach((corner) => {
+        gsap.killTweensOf(corner);
+      });
+
+      gsap.killTweensOf(this.cursorWrapper, "rotation");
+      this.spinTl?.pause();
+
+      gsap.set(this.cursorWrapper, { rotation: 0 });
+
+      const updateCorners = (mouseX, mouseY) => {
+        const rect = target.getBoundingClientRect();
+        const cursorRect = this.cursorWrapper.getBoundingClientRect();
+
+        const cursorCenterX = cursorRect.left + cursorRect.width / 2;
+        const cursorCenterY = cursorRect.top + cursorRect.height / 2;
+
+        const [tlc, trc, brc, blc] = Array.from(this.corners);
+
+        const { borderWidth, cornerSize, parallaxStrength } = this.constants;
+
+        let tlOffset = {
+          x: rect.left - cursorCenterX - borderWidth,
+          y: rect.top - cursorCenterY - borderWidth,
+        };
+        let trOffset = {
+          x: rect.right - cursorCenterX + borderWidth - cornerSize,
+          y: rect.top - cursorCenterY - borderWidth,
+        };
+        let brOffset = {
+          x: rect.right - cursorCenterX + borderWidth - cornerSize,
+          y: rect.bottom - cursorCenterY + borderWidth - cornerSize,
+        };
+        let blOffset = {
+          x: rect.left - cursorCenterX - borderWidth,
+          y: rect.bottom - cursorCenterY + borderWidth - cornerSize,
+        };
+
+        if (mouseX !== undefined && mouseY !== undefined) {
+          const targetCenterX = rect.left + rect.width / 2;
+          const targetCenterY = rect.top + rect.height / 2;
+          const mouseOffsetX = (mouseX - targetCenterX) * parallaxStrength;
+          const mouseOffsetY = (mouseY - targetCenterY) * parallaxStrength;
+
+          tlOffset.x += mouseOffsetX;
+          tlOffset.y += mouseOffsetY;
+          trOffset.x += mouseOffsetX;
+          trOffset.y += mouseOffsetY;
+          brOffset.x += mouseOffsetX;
+          brOffset.y += mouseOffsetY;
+          blOffset.x += mouseOffsetX;
+          blOffset.y += mouseOffsetY;
+        }
+
+        const tl = gsap.timeline();
+        const corners = [tlc, trc, brc, blc];
+        const offsets = [tlOffset, trOffset, brOffset, blOffset];
+
+        corners.forEach((corner, index) => {
+          tl.to(
+            corner,
+            {
+              x: offsets[index].x,
+              y: offsets[index].y,
+              duration: 0.2,
+              ease: "power2.out",
+            },
+            0
+          );
+        });
+      };
+
+      this.isAnimatingToTarget = true;
+      updateCorners();
+
+      setTimeout(() => {
+        this.isAnimatingToTarget = false;
+      }, 1);
+
+      let moveThrottle = null;
+      const targetMove = (ev) => {
+        if (moveThrottle || this.isAnimatingToTarget) return;
+        moveThrottle = requestAnimationFrame(() => {
+          const mouseEvent = ev;
+          updateCorners(mouseEvent.clientX, mouseEvent.clientY);
+          moveThrottle = null;
+        });
+      };
+
+      const leaveHandler = () => {
+        this.activeTarget = null;
+        this.isAnimatingToTarget = false;
+
+        if (this.corners) {
+          const corners = Array.from(this.corners);
+          gsap.killTweensOf(corners);
+
+          const { cornerSize } = this.constants;
+          const positions = [
+            { x: -cornerSize * 1.5, y: -cornerSize * 1.5 },
+            { x: cornerSize * 0.5, y: -cornerSize * 1.5 },
+            { x: cornerSize * 0.5, y: cornerSize * 0.5 },
+            { x: -cornerSize * 1.5, y: cornerSize * 0.5 },
+          ];
+
+          const tl = gsap.timeline();
+          corners.forEach((corner, index) => {
+            tl.to(
+              corner,
+              {
+                x: positions[index].x,
+                y: positions[index].y,
+                duration: 0.3,
+                ease: "power3.out",
+              },
+              0
+            );
+          });
+        }
+
+        this.resumeTimeout = setTimeout(() => {
+          if (!this.activeTarget && this.cursorWrapper && this.spinTl) {
+            const currentRotation = gsap.getProperty(
+              this.cursorWrapper,
+              "rotation"
+            );
+            const normalizedRotation = currentRotation % 360;
+
+            this.spinTl.kill();
             this.spinTl = gsap.timeline({ repeat: -1 }).to(this.cursorWrapper, {
               rotation: "+=360",
               duration: this.spinDuration,
               ease: "none",
             });
-          }
-
-          moveCursor(x, y) {
-            if (!this.cursorWrapper) return;
 
             gsap.to(this.cursorWrapper, {
-              x,
-              y,
-              duration: 0.1,
-              ease: "power3.out",
+              rotation: normalizedRotation + 360,
+              duration: this.spinDuration * (1 - normalizedRotation / 360),
+              ease: "none",
+              onComplete: () => {
+                this.spinTl?.restart();
+              },
             });
           }
+          this.resumeTimeout = null;
+        }, 50);
 
-          cleanupTarget(target) {
-            if (this.currentTargetMove) {
-              target.removeEventListener("mousemove", this.currentTargetMove);
-            }
-            if (this.currentLeaveHandler) {
-              target.removeEventListener("mouseleave", this.currentLeaveHandler);
-            }
-            this.currentTargetMove = null;
-            this.currentLeaveHandler = null;
-          }
+        this.cleanupTarget(target);
+      };
 
-          setupEventListeners() {
-            this.moveHandler = (e) => this.moveCursor(e.clientX, e.clientY);
-            window.addEventListener("mousemove", this.moveHandler);
+      this.currentTargetMove = targetMove;
+      this.currentLeaveHandler = leaveHandler;
 
-            this.scrollHandler = () => {
-              if (!this.activeTarget || !this.cursorWrapper) return;
+      target.addEventListener("mousemove", targetMove);
+      target.addEventListener("mouseleave", leaveHandler);
+    };
 
-              const mouseX = gsap.getProperty(this.cursorWrapper, "x");
-              const mouseY = gsap.getProperty(this.cursorWrapper, "y");
+    window.addEventListener("mouseover", this.enterHandler, { passive: true });
+  }
 
-              const elementUnderMouse = document.elementFromPoint(mouseX, mouseY);
-              const isStillOverTarget =
-                elementUnderMouse &&
-                (elementUnderMouse === this.activeTarget ||
-                  elementUnderMouse.closest(this.targetSelector) === this.activeTarget);
+  destroy() {
+    window.removeEventListener("mousemove", this.moveHandler);
+    window.removeEventListener("mouseover", this.enterHandler);
+    window.removeEventListener("scroll", this.scrollHandler);
+    window.removeEventListener("mousedown", this.mouseDownHandler);
+    window.removeEventListener("mouseup", this.mouseUpHandler);
 
-              if (!isStillOverTarget) {
-                if (this.currentLeaveHandler) {
-                  this.currentLeaveHandler();
-                }
-              }
-            };
+    if (this.activeTarget) {
+      this.cleanupTarget(this.activeTarget);
+    }
 
-            window.addEventListener("scroll", this.scrollHandler, { passive: true });
+    this.spinTl?.kill();
 
-            this.mouseDownHandler = () => {
-              if (!this.dot) return;
-              gsap.to(this.dot, { scale: 0.7, duration: 0.3 });
-              gsap.to(this.cursorWrapper, { scale: 0.9, duration: 0.2 });
-            };
+    if (this.cursorWrapper) {
+      this.cursorWrapper.remove();
+    }
 
-            this.mouseUpHandler = () => {
-              if (!this.dot) return;
-              gsap.to(this.dot, { scale: 1, duration: 0.3 });
-              gsap.to(this.cursorWrapper, { scale: 1, duration: 0.2 });
-            };
+    document.body.style.cursor = "";
+  }
+}
 
-            window.addEventListener("mousedown", this.mouseDownHandler);
-            window.addEventListener("mouseup", this.mouseUpHandler);
-
-            this.enterHandler = (e) => {
-              const directTarget = e.target;
-
-              const allTargets = [];
-              let current = directTarget;
-              while (current && current !== document.body) {
-                if (current.matches(this.targetSelector)) {
-                  allTargets.push(current);
-                }
-                current = current.parentElement;
-              }
-
-              const target = allTargets[0] || null;
-              if (!target || !this.cursorWrapper || !this.corners) return;
-
-              if (this.activeTarget === target) return;
-
-              if (this.activeTarget) {
-                this.cleanupTarget(this.activeTarget);
-              }
-
-              if (this.resumeTimeout) {
-                clearTimeout(this.resumeTimeout);
-                this.resumeTimeout = null;
-              }
-
-              this.activeTarget = target;
-              const corners = Array.from(this.corners);
-              corners.forEach((corner) => {
-                gsap.killTweensOf(corner);
-              });
-
-              gsap.killTweensOf(this.cursorWrapper, "rotation");
-              this.spinTl?.pause();
-
-              gsap.set(this.cursorWrapper, { rotation: 0 });
-
-              const updateCorners = (mouseX, mouseY) => {
-                const rect = target.getBoundingClientRect();
-                const cursorRect = this.cursorWrapper.getBoundingClientRect();
-
-                const cursorCenterX = cursorRect.left + cursorRect.width / 2;
-                const cursorCenterY = cursorRect.top + cursorRect.height / 2;
-
-                const [tlc, trc, brc, blc] = Array.from(this.corners);
-
-                const { borderWidth, cornerSize, parallaxStrength } = this.constants;
-
-                let tlOffset = {
-                  x: rect.left - cursorCenterX - borderWidth,
-                  y: rect.top - cursorCenterY - borderWidth,
-                };
-                let trOffset = {
-                  x: rect.right - cursorCenterX + borderWidth - cornerSize,
-                  y: rect.top - cursorCenterY - borderWidth,
-                };
-                let brOffset = {
-                  x: rect.right - cursorCenterX + borderWidth - cornerSize,
-                  y: rect.bottom - cursorCenterY + borderWidth - cornerSize,
-                };
-                let blOffset = {
-                  x: rect.left - cursorCenterX - borderWidth,
-                  y: rect.bottom - cursorCenterY + borderWidth - cornerSize,
-                };
-
-                if (mouseX !== undefined && mouseY !== undefined) {
-                  const targetCenterX = rect.left + rect.width / 2;
-                  const targetCenterY = rect.top + rect.height / 2;
-                  const mouseOffsetX = (mouseX - targetCenterX) * parallaxStrength;
-                  const mouseOffsetY = (mouseY - targetCenterY) * parallaxStrength;
-
-                  tlOffset.x += mouseOffsetX;
-                  tlOffset.y += mouseOffsetY;
-                  trOffset.x += mouseOffsetX;
-                  trOffset.y += mouseOffsetY;
-                  brOffset.x += mouseOffsetX;
-                  brOffset.y += mouseOffsetY;
-                  blOffset.x += mouseOffsetX;
-                  blOffset.y += mouseOffsetY;
-                }
-
-                const tl = gsap.timeline();
-                const corners = [tlc, trc, brc, blc];
-                const offsets = [tlOffset, trOffset, brOffset, blOffset];
-
-                corners.forEach((corner, index) => {
-                  tl.to(
-                    corner,
-                    {
-                      x: offsets[index].x,
-                      y: offsets[index].y,
-                      duration: 0.2,
-                      ease: "power2.out",
-                    },
-                    0
-                  );
-                });
-              };
-
-              this.isAnimatingToTarget = true;
-              updateCorners();
-
-              setTimeout(() => {
-                this.isAnimatingToTarget = false;
-              }, 1);
-
-              let moveThrottle = null;
-              const targetMove = (ev) => {
-                if (moveThrottle || this.isAnimatingToTarget) return;
-                moveThrottle = requestAnimationFrame(() => {
-                  const mouseEvent = ev;
-                  updateCorners(mouseEvent.clientX, mouseEvent.clientY);
-                  moveThrottle = null;
-                });
-              };
-
-              const leaveHandler = () => {
-                this.activeTarget = null;
-                this.isAnimatingToTarget = false;
-
-                if (this.corners) {
-                  const corners = Array.from(this.corners);
-                  gsap.killTweensOf(corners);
-
-                  const { cornerSize } = this.constants;
-                  const positions = [
-                    { x: -cornerSize * 1.5, y: -cornerSize * 1.5 },
-                    { x: cornerSize * 0.5, y: -cornerSize * 1.5 },
-                    { x: cornerSize * 0.5, y: cornerSize * 0.5 },
-                    { x: -cornerSize * 1.5, y: cornerSize * 0.5 },
-                  ];
-
-                  const tl = gsap.timeline();
-                  corners.forEach((corner, index) => {
-                    tl.to(
-                      corner,
-                      {
-                        x: positions[index].x,
-                        y: positions[index].y,
-                        duration: 0.3,
-                        ease: "power3.out",
-                      },
-                      0
-                    );
-                  });
-                }
-
-                this.resumeTimeout = setTimeout(() => {
-                  if (!this.activeTarget && this.cursorWrapper && this.spinTl) {
-                    const currentRotation = gsap.getProperty(
-                      this.cursorWrapper,
-                      "rotation"
-                    );
-                    const normalizedRotation = currentRotation % 360;
-
-                    this.spinTl.kill();
-                    this.spinTl = gsap.timeline({ repeat: -1 }).to(this.cursorWrapper, {
-                      rotation: "+=360",
-                      duration: this.spinDuration,
-                      ease: "none",
-                    });
-
-                    gsap.to(this.cursorWrapper, {
-                      rotation: normalizedRotation + 360,
-                      duration: this.spinDuration * (1 - normalizedRotation / 360),
-                      ease: "none",
-                      onComplete: () => {
-                        this.spinTl?.restart();
-                      },
-                    });
-                  }
-                  this.resumeTimeout = null;
-                }, 50);
-
-                this.cleanupTarget(target);
-              };
-
-              this.currentTargetMove = targetMove;
-              this.currentLeaveHandler = leaveHandler;
-
-              target.addEventListener("mousemove", targetMove);
-              target.addEventListener("mouseleave", leaveHandler);
-            };
-
-            window.addEventListener("mouseover", this.enterHandler, { passive: true });
-          }
-
-          destroy() {
-            window.removeEventListener("mousemove", this.moveHandler);
-            window.removeEventListener("mouseover", this.enterHandler);
-            window.removeEventListener("scroll", this.scrollHandler);
-            window.removeEventListener("mousedown", this.mouseDownHandler);
-            window.removeEventListener("mouseup", this.mouseUpHandler);
-
-            if (this.activeTarget) {
-              this.cleanupTarget(this.activeTarget);
-            }
-
-            this.spinTl?.kill();
-
-            if (this.cursorWrapper) {
-              this.cursorWrapper.remove();
-            }
-
-            document.body.style.cursor = "";
-          }
-        }
-
-        // Initialize the cursor when the page loads
-        document.addEventListener("DOMContentLoaded", () => {
-          const cursor = new TargetCursor({
-            targetSelector: ".cursor-target",
-            spinDuration: 2,
-            hideDefaultCursor: true,
-          });
-        });
-        // cursor code ends
+// Initialize the cursor when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+  const cursor = new TargetCursor({
+    targetSelector: ".cursor-target",
+    spinDuration: 2,
+    hideDefaultCursor: true,
+  });
+});
+// cursor code ends
 
 //Home section starts
 // Countdown timer
@@ -427,11 +427,11 @@ function updateHomeTimer() {
   // If the difference is negative, the event has passed
   if (diff <= 0) {
     document.querySelector(".home-timer").innerHTML = `
-                            <div class="home-timer-unit">
-                                <div class="home-timer-value">00</div>
-                                <div class="home-timer-label">Event Started</div>
-                            </div>
-                        `;
+                                    <div class="home-timer-unit">
+                                        <div class="home-timer-value">00</div>
+                                        <div class="home-timer-label">Event Started</div>
+                                    </div>
+                                `;
     return;
   }
 
@@ -1239,49 +1239,73 @@ document.addEventListener("DOMContentLoaded", function () {
 //Domains section
 
 // DOMAIN CARDS INTERACTIVITY
-        document.addEventListener("DOMContentLoaded", function () {
-            const domainCards = document.querySelectorAll(".domains-card");
+document.addEventListener("DOMContentLoaded", function () {
+  const domainCards = document.querySelectorAll(".domains-card");
 
-            domainCards.forEach((card) => {
-                const cardData = card.querySelector(".domains-card-data");
+  domainCards.forEach((card) => {
+    const cardData = card.querySelector(".domains-card-data");
 
-                card.addEventListener("mouseenter", function () {
-                    // Show data animation
-                    cardData.style.animation = "domains-show-data 1s forwards";
-                    cardData.style.opacity = "1";
-                    cardData.style.transition = "opacity 0.3s";
+    card.addEventListener("mouseenter", function () {
+      // Show data animation
+      cardData.style.animation = "domains-show-data 1s forwards";
+      cardData.style.opacity = "1";
+      cardData.style.transition = "opacity 0.3s";
 
-                    // Remove overflow animation
-                    card.style.animation = "domains-remove-overflow 2s forwards";
-                });
+      // Remove overflow animation
+      card.style.animation = "domains-remove-overflow 2s forwards";
+    });
 
-                card.addEventListener("mouseleave", function () {
-                    // Remove data animation
-                    cardData.style.animation = "domains-remove-data 1s forwards";
+    card.addEventListener("mouseleave", function () {
+      // Remove data animation
+      cardData.style.animation = "domains-remove-data 1s forwards";
 
-                    // Show overflow animation
-                    card.style.animation = "domains-show-overflow 2s forwards";
+      // Show overflow animation
+      card.style.animation = "domains-show-overflow 2s forwards";
 
-                    // After animation completes, reset opacity with delay
-                    setTimeout(() => {
-                        if (!card.matches(":hover")) {
-                            cardData.style.opacity = "0";
-                        }
-                    }, 1000);
-                });
-            });
+      // After animation completes, reset opacity with delay
+      setTimeout(() => {
+        if (!card.matches(":hover")) {
+          cardData.style.opacity = "0";
+        }
+      }, 1000);
+    });
 
-            // Add animation to heading letters
-            const letters = document.querySelectorAll('.domains-heading-small div div');
-            letters.forEach((letter, index) => {
-                letter.style.animationDelay = `${index * 0.1}s`;
-                letter.style.animation = `domains-slideIn 0.8s ease forwards`;
-            });
-        });
+    // Add touch events for mobile
+    card.addEventListener("touchstart", function () {
+      // Show data animation
+      cardData.style.animation = "domains-show-data 1s forwards";
+      cardData.style.opacity = "1";
+      cardData.style.transition = "opacity 0.3s";
 
-        // Add CSS animation for heading
-        const style = document.createElement('style');
-        style.textContent = `
+      // Remove overflow animation
+      card.style.animation = "domains-remove-overflow 2s forwards";
+    });
+
+    card.addEventListener("touchend", function () {
+      // Remove data animation
+      cardData.style.animation = "domains-remove-data 1s forwards";
+
+      // Show overflow animation
+      card.style.animation = "domains-show-overflow 2s forwards";
+
+      // After animation completes, reset opacity with delay
+      setTimeout(() => {
+        cardData.style.opacity = "0";
+      }, 1000);
+    });
+  });
+
+  // Add animation to heading letters
+  const letters = document.querySelectorAll(".domains-heading-small div div");
+  letters.forEach((letter, index) => {
+    letter.style.animationDelay = `${index * 0.1}s`;
+    letter.style.animation = `domains-slideIn 0.8s ease forwards`;
+  });
+});
+
+// Add CSS animation for heading
+const style = document.createElement("style");
+style.textContent = `
             @keyframes domains-slideIn {
                 from {
                     transform: translateY(100%);
@@ -1293,117 +1317,115 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         `;
-        document.head.appendChild(style);
+document.head.appendChild(style);
 
-//domain section ends 
+//domain section ends
 
 //timeline section starts
 // Progress bar animation
-        function initTimelineProgress() {
-            const progressBar = document.getElementById("timeline-progressBar");
-            const timelineEvents = document.querySelectorAll(".timeline-event");
-            const eventMarkers = document.querySelectorAll(".timeline-event-marker");
-            const eventDescriptions = document.querySelectorAll(
-                ".timeline-event-description"
-            );
+function initTimelineProgress() {
+  const progressBar = document.getElementById("timeline-progressBar");
+  const timelineEvents = document.querySelectorAll(".timeline-event");
+  const eventMarkers = document.querySelectorAll(".timeline-event-marker");
+  const eventDescriptions = document.querySelectorAll(
+    ".timeline-event-description"
+  );
 
-            // Initially hide the progress bar completely
-            progressBar.style.opacity = "0";
-            progressBar.style.height = "0%";
+  // Initially hide the progress bar completely
+  progressBar.style.opacity = "0";
+  progressBar.style.height = "0%";
 
-            let hasUserScrolled = false;
-            let progressBarVisible = false;
+  let hasUserScrolled = false;
+  let progressBarVisible = false;
 
-            // Track if user has started scrolling
-            window.addEventListener("scroll", function () {
-                if (!hasUserScrolled) {
-                    hasUserScrolled = window.pageYOffset > 10;
-                }
-            });
+  // Track if user has started scrolling
+  window.addEventListener("scroll", function () {
+    if (!hasUserScrolled) {
+      hasUserScrolled = window.pageYOffset > 10;
+    }
+  });
 
-            window.addEventListener("scroll", function () {
-                const timelineComponent = document.querySelector(".timeline-component");
-                const timelineRect = timelineComponent.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  window.addEventListener("scroll", function () {
+    const timelineComponent = document.querySelector(".timeline-component");
+    const timelineRect = timelineComponent.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-                // Only activate if user has actually scrolled AND timeline is in view
-                const timelineInView =
-                    timelineRect.top < windowHeight * 0.8 &&
-                    timelineRect.bottom > windowHeight * 0.2;
+    // Only activate if user has actually scrolled AND timeline is in view
+    const timelineInView =
+      timelineRect.top < windowHeight * 0.8 &&
+      timelineRect.bottom > windowHeight * 0.2;
 
-                if (hasUserScrolled && timelineInView) {
-                    if (!progressBarVisible) {
-                        // Show progress bar with fade-in effect
-                        progressBar.style.opacity = "1";
-                        progressBarVisible = true;
-                    }
+    if (hasUserScrolled && timelineInView) {
+      if (!progressBarVisible) {
+        // Show progress bar with fade-in effect
+        progressBar.style.opacity = "1";
+        progressBarVisible = true;
+      }
 
-                    // Calculate progress based on timeline visibility
-                    const timelineStart = scrollTop + timelineRect.top;
-                    const timelineEnd = timelineStart + timelineRect.height;
-                    const viewportMiddle = scrollTop + windowHeight / 2;
+      // Calculate progress based on timeline visibility
+      const timelineStart = scrollTop + timelineRect.top;
+      const timelineEnd = timelineStart + timelineRect.height;
+      const viewportMiddle = scrollTop + windowHeight / 2;
 
-                    // Calculate how much of the timeline has been scrolled through
-                    const timelineScrollStart = timelineStart - windowHeight * 0.3;
-                    const timelineScrollEnd = timelineEnd - windowHeight * 0.7;
-                    const scrollRange = timelineScrollEnd - timelineScrollStart;
+      // Calculate how much of the timeline has been scrolled through
+      const timelineScrollStart = timelineStart - windowHeight * 0.3;
+      const timelineScrollEnd = timelineEnd - windowHeight * 0.7;
+      const scrollRange = timelineScrollEnd - timelineScrollStart;
 
-                    if (scrollRange > 0) {
-                        const currentScroll = Math.max(
-                            0,
-                            Math.min(scrollRange, scrollTop - timelineScrollStart)
-                        );
-                        const progressPercentage = (currentScroll / scrollRange) * 100;
-                        progressBar.style.height =
-                            Math.max(0, Math.min(100, progressPercentage)) + "%";
-                    }
-                } else {
-                    // Hide progress bar when not in timeline section or if user hasn't scrolled yet
-                    if (progressBarVisible) {
-                        progressBar.style.opacity = "0";
-                        progressBarVisible = false;
-                    }
-                    progressBar.style.height = "0%";
-                }
+      if (scrollRange > 0) {
+        const currentScroll = Math.max(
+          0,
+          Math.min(scrollRange, scrollTop - timelineScrollStart)
+        );
+        const progressPercentage = (currentScroll / scrollRange) * 100;
+        progressBar.style.height =
+          Math.max(0, Math.min(100, progressPercentage)) + "%";
+      }
+    } else {
+      // Hide progress bar when not in timeline section or if user hasn't scrolled yet
+      if (progressBarVisible) {
+        progressBar.style.opacity = "0";
+        progressBarVisible = false;
+      }
+      progressBar.style.height = "0%";
+    }
 
-                // Update active states based on scroll position
-                timelineEvents.forEach((event, index) => {
-                    const rect = event.getBoundingClientRect();
-                    const isVisible =
-                        rect.top < window.innerHeight * 0.7 &&
-                        rect.bottom > window.innerHeight * 0.3;
+    // Update active states based on scroll position
+    timelineEvents.forEach((event, index) => {
+      const rect = event.getBoundingClientRect();
+      const isVisible =
+        rect.top < window.innerHeight * 0.7 &&
+        rect.bottom > window.innerHeight * 0.3;
 
-                    if (isVisible) {
-                        eventMarkers[index].classList.add("active");
-                        eventDescriptions[index].classList.add("active");
-                    } else {
-                        eventMarkers[index].classList.remove("active");
-                        eventDescriptions[index].classList.remove("active");
-                    }
-                });
-            });
+      if (isVisible) {
+        eventMarkers[index].classList.add("active");
+        eventDescriptions[index].classList.add("active");
+      } else {
+        eventMarkers[index].classList.remove("active");
+        eventDescriptions[index].classList.remove("active");
+      }
+    });
+  });
 
-            // Small delay to ensure DOM is fully ready
-            setTimeout(() => {
-                window.dispatchEvent(new Event("scroll"));
-            }, 100);
-        }
+  // Small delay to ensure DOM is fully ready
+  setTimeout(() => {
+    window.dispatchEvent(new Event("scroll"));
+  }, 100);
+}
 
-        // Initialize on DOM ready
-        document.addEventListener("DOMContentLoaded", function () {
-            initTimelineProgress();
-        });
+// Initialize on DOM ready
+document.addEventListener("DOMContentLoaded", function () {
+  initTimelineProgress();
+});
 
-        //timeline section ends
+//timeline section ends
 
-        //full sponser section starts
+//full sponser section starts
 
-        function viewSponsorshipDeck() {
-          // Open the sponsorship deck in a new browser tab for viewing
-          window.open("PEC-Hacks-3.0-Sponsorship-Deck.pdf", "_blank");
-        }
+function viewSponsorshipDeck() {
+  // Open the sponsorship deck in a new browser tab for viewing
+  window.open("PEC-Hacks-3.0-Sponsorship-Deck.pdf", "_blank");
+}
 
-        //full sponser section ends
-
-
+//full sponser section ends

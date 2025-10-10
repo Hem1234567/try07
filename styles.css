@@ -1,4 +1,6 @@
-    @import url('https://fonts.cdnfonts.com/css/transformers-2');
+/* Your existing CSS code goes here */
+        /* I'm including the full CSS for completeness */
+        @import url('https://fonts.cdnfonts.com/css/transformers-2');
         @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap'); 
         
@@ -3162,3 +3164,67 @@
 
 /*full sponeser section ends*/
 
+        /* MOBILE TOUCH FIXES */
+        @media (max-width: 768px) {
+            /* Ensure all interactive elements are touch-friendly */
+            .domains-card, 
+            .prize-card-item,
+            .partners-item,
+            .partners-cta-button,
+            .timeline-event-content,
+            .about-patron-card {
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+            }
+
+            /* Fix z-index issues that might block touch events */
+            .home-main-container,
+            .about-section,
+            .dome-gallery-section,
+            .glimpse-section,
+            .domains-section,
+            .timeline-section,
+            .prize-container,
+            .partners-section {
+                position: relative;
+                z-index: 1;
+            }
+
+            /* Ensure buttons are properly sized for touch */
+            .home-space-button,
+            .partners-cta-button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            /* Fix for domain cards on mobile */
+            .domains-card-data {
+                pointer-events: none;
+            }
+
+            .domains-card {
+                position: relative;
+            }
+
+            /* Fix for prize cards on mobile */
+            .prize-card-content {
+                pointer-events: auto;
+            }
+
+            /* Fix for timeline on mobile */
+            .timeline-event-content {
+                pointer-events: auto;
+            }
+
+            /* Fix for partners section on mobile */
+            .partners-item {
+                pointer-events: auto;
+            }
+
+            /* Ensure all sections are scrollable */
+            body, html {
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
