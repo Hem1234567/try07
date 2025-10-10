@@ -427,11 +427,11 @@ function updateHomeTimer() {
   // If the difference is negative, the event has passed
   if (diff <= 0) {
     document.querySelector(".home-timer").innerHTML = `
-                                    <div class="home-timer-unit">
-                                        <div class="home-timer-value">00</div>
-                                        <div class="home-timer-label">Event Started</div>
-                                    </div>
-                                `;
+                                <div class="home-timer-unit">
+                                    <div class="home-timer-value">00</div>
+                                    <div class="home-timer-label">Event Started</div>
+                                </div>
+                            `;
     return;
   }
 
@@ -1267,30 +1267,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!card.matches(":hover")) {
           cardData.style.opacity = "0";
         }
-      }, 1000);
-    });
-
-    // Add touch events for mobile
-    card.addEventListener("touchstart", function () {
-      // Show data animation
-      cardData.style.animation = "domains-show-data 1s forwards";
-      cardData.style.opacity = "1";
-      cardData.style.transition = "opacity 0.3s";
-
-      // Remove overflow animation
-      card.style.animation = "domains-remove-overflow 2s forwards";
-    });
-
-    card.addEventListener("touchend", function () {
-      // Remove data animation
-      cardData.style.animation = "domains-remove-data 1s forwards";
-
-      // Show overflow animation
-      card.style.animation = "domains-show-overflow 2s forwards";
-
-      // After animation completes, reset opacity with delay
-      setTimeout(() => {
-        cardData.style.opacity = "0";
       }, 1000);
     });
   });

@@ -1,6 +1,4 @@
-/* Your existing CSS code goes here */
-        /* I'm including the full CSS for completeness */
-        @import url('https://fonts.cdnfonts.com/css/transformers-2');
+@import url('https://fonts.cdnfonts.com/css/transformers-2');
         @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap'); 
         
@@ -1590,7 +1588,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             user-select: none;
-            font-family: 'Bungee', cursive;
+            font-family: 'Transformers', sans-serif;
             width: 100%;
             margin: 0;
             line-height: 1;
@@ -1604,7 +1602,7 @@
             color: #fff;
             position: relative;
             z-index: 1;
-            font-family: 'Bungee', cursive;
+            font-family: 'Transformers', sans-serif !important;
             margin: 0;
             line-height: 1;
             align-items: center;
@@ -2617,7 +2615,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             user-select: none;
-            font-family: 'Bungee', cursive;
+            font-family: 'Transformers', sans-serif;
             width: 100%;
             margin: 0;
             line-height: 1;
@@ -2632,7 +2630,7 @@
             color: #fff;
             position: relative;
             z-index: 1;
-            font-family: 'Bungee', cursive;
+            font-family: 'Transformers', sans-serif;
             margin: 0;
             line-height: 1;
             align-items: center;
@@ -3164,67 +3162,142 @@
 
 /*full sponeser section ends*/
 
-        /* MOBILE TOUCH FIXES */
+/* Section Headers for Timeline and Prizes */
+        .timeline-heading {
+            position: relative;
+            text-align: center;
+            margin-bottom: 100px;
+            margin-top: 100px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .timeline-heading-shadow {
+            font-size: 120px;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            user-select: none;
+            font-family: 'Transformers', sans-serif;
+            width: 100%;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .timeline-heading-small {
+            display: flex;
+            justify-content: center;
+            font-size: 88px;
+            font-weight: bold;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            font-family: 'Transformers', sans-serif !important;
+            margin: 0;
+            line-height: 1;
+            align-items: center;
+        }
+        
+        .timeline-heading-small div {
+            overflow: hidden;
+            height: 98px;
+        }
+        
+        .timeline-heading-small div div {
+            transform: translateY(0%);
+            will-change: auto;
+        }
+        
+        .prize-heading {
+            position: relative;
+            text-align: center;
+            margin-bottom: 100px;
+            margin-top: 100px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .prize-heading-shadow {
+            font-size: 120px;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            user-select: none;
+            font-family: 'Transformers', sans-serif;
+            width: 100%;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .prize-heading-small {
+            display: flex;
+            justify-content: center;
+            font-size: 88px;
+            font-weight: bold;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            font-family: 'Transformers', sans-serif !important;
+            margin: 0;
+            line-height: 1;
+            align-items: center;
+        }
+        
+        .prize-heading-small div {
+            overflow: hidden;
+            height: 98px;
+        }
+        
+        .prize-heading-small div div {
+            transform: translateY(0%);
+            will-change: auto;
+        }
+
+        /* Mobile touch improvements */
         @media (max-width: 768px) {
-            /* Ensure all interactive elements are touch-friendly */
-            .domains-card, 
-            .prize-card-item,
-            .partners-item,
-            .partners-cta-button,
-            .timeline-event-content,
-            .about-patron-card {
-                cursor: pointer;
-                -webkit-tap-highlight-color: transparent;
-                touch-action: manipulation;
+            .timeline-heading, .prize-heading {
+                height: 80px;
+                margin-bottom: 80px;
+                margin-top: 80px;
             }
-
-            /* Fix z-index issues that might block touch events */
-            .home-main-container,
-            .about-section,
-            .dome-gallery-section,
-            .glimpse-section,
-            .domains-section,
-            .timeline-section,
-            .prize-container,
-            .partners-section {
-                position: relative;
-                z-index: 1;
+            
+            .timeline-heading-shadow, .prize-heading-shadow {
+                font-size: 80px;
             }
-
-            /* Ensure buttons are properly sized for touch */
-            .home-space-button,
-            .partners-cta-button {
-                min-height: 44px;
-                min-width: 44px;
+            
+            .timeline-heading-small, .prize-heading-small {
+                font-size: 48px;
             }
-
-            /* Fix for domain cards on mobile */
-            .domains-card-data {
-                pointer-events: none;
+            
+            .timeline-heading-small div, .prize-heading-small div {
+                height: 54px;
             }
-
-            .domains-card {
-                position: relative;
+        }
+        
+        @media (max-width: 480px) {
+            .timeline-heading, .prize-heading {
+                height: 60px;
+                margin-bottom: 60px;
+                margin-top: 60px;
             }
-
-            /* Fix for prize cards on mobile */
-            .prize-card-content {
-                pointer-events: auto;
+            
+            .timeline-heading-shadow, .prize-heading-shadow {
+                font-size: 62px;
             }
-
-            /* Fix for timeline on mobile */
-            .timeline-event-content {
-                pointer-events: auto;
+            
+            .timeline-heading-small, .prize-heading-small {
+                font-size: 45px;
             }
-
-            /* Fix for partners section on mobile */
-            .partners-item {
-                pointer-events: auto;
-            }
-
-            /* Ensure all sections are scrollable */
-            body, html {
-                overflow-x: hidden;
-                -webkit-overflow-scrolling: touch;
+            
+            .timeline-heading-small div, .prize-heading-small div {
+                height: 50px;
             }
         }
