@@ -1645,6 +1645,8 @@
             cursor: pointer;
             transition: all 0.4s ease;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .domains-card-img {
@@ -2167,6 +2169,8 @@
             width: 240px;
             height: 300px;
             perspective: 1000px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .prize-card-content {
@@ -2760,6 +2764,8 @@
         .partners-item {
             transition: transform 0.3s;
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .partners-item:hover {
@@ -2839,6 +2845,8 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             padding: 1rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .partners-carousel-item:hover {
@@ -2947,6 +2955,8 @@
             color: white;
             transition: all 0.3s ease;
             letter-spacing: 0.5px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .partners-cta-button:hover {
