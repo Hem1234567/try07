@@ -1235,3 +1235,175 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   });
 });
+
+//Domains section
+
+// DOMAIN CARDS INTERACTIVITY
+        document.addEventListener("DOMContentLoaded", function () {
+            const domainCards = document.querySelectorAll(".domains-card");
+
+            domainCards.forEach((card) => {
+                const cardData = card.querySelector(".domains-card-data");
+
+                card.addEventListener("mouseenter", function () {
+                    // Show data animation
+                    cardData.style.animation = "domains-show-data 1s forwards";
+                    cardData.style.opacity = "1";
+                    cardData.style.transition = "opacity 0.3s";
+
+                    // Remove overflow animation
+                    card.style.animation = "domains-remove-overflow 2s forwards";
+                });
+
+                card.addEventListener("mouseleave", function () {
+                    // Remove data animation
+                    cardData.style.animation = "domains-remove-data 1s forwards";
+
+                    // Show overflow animation
+                    card.style.animation = "domains-show-overflow 2s forwards";
+
+                    // After animation completes, reset opacity with delay
+                    setTimeout(() => {
+                        if (!card.matches(":hover")) {
+                            cardData.style.opacity = "0";
+                        }
+                    }, 1000);
+                });
+            });
+
+            // Add animation to heading letters
+            const letters = document.querySelectorAll('.domains-heading-small div div');
+            letters.forEach((letter, index) => {
+                letter.style.animationDelay = `${index * 0.1}s`;
+                letter.style.animation = `domains-slideIn 0.8s ease forwards`;
+            });
+        });
+
+        // Add CSS animation for heading
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes domains-slideIn {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+//domain section ends 
+
+//timeline section starts
+// Progress bar animation
+        function initTimelineProgress() {
+            const progressBar = document.getElementById("timeline-progressBar");
+            const timelineEvents = document.querySelectorAll(".timeline-event");
+            const eventMarkers = document.querySelectorAll(".timeline-event-marker");
+            const eventDescriptions = document.querySelectorAll(
+                ".timeline-event-description"
+            );
+
+            // Initially hide the progress bar completely
+            progressBar.style.opacity = "0";
+            progressBar.style.height = "0%";
+
+            let hasUserScrolled = false;
+            let progressBarVisible = false;
+
+            // Track if user has started scrolling
+            window.addEventListener("scroll", function () {
+                if (!hasUserScrolled) {
+                    hasUserScrolled = window.pageYOffset > 10;
+                }
+            });
+
+            window.addEventListener("scroll", function () {
+                const timelineComponent = document.querySelector(".timeline-component");
+                const timelineRect = timelineComponent.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                // Only activate if user has actually scrolled AND timeline is in view
+                const timelineInView =
+                    timelineRect.top < windowHeight * 0.8 &&
+                    timelineRect.bottom > windowHeight * 0.2;
+
+                if (hasUserScrolled && timelineInView) {
+                    if (!progressBarVisible) {
+                        // Show progress bar with fade-in effect
+                        progressBar.style.opacity = "1";
+                        progressBarVisible = true;
+                    }
+
+                    // Calculate progress based on timeline visibility
+                    const timelineStart = scrollTop + timelineRect.top;
+                    const timelineEnd = timelineStart + timelineRect.height;
+                    const viewportMiddle = scrollTop + windowHeight / 2;
+
+                    // Calculate how much of the timeline has been scrolled through
+                    const timelineScrollStart = timelineStart - windowHeight * 0.3;
+                    const timelineScrollEnd = timelineEnd - windowHeight * 0.7;
+                    const scrollRange = timelineScrollEnd - timelineScrollStart;
+
+                    if (scrollRange > 0) {
+                        const currentScroll = Math.max(
+                            0,
+                            Math.min(scrollRange, scrollTop - timelineScrollStart)
+                        );
+                        const progressPercentage = (currentScroll / scrollRange) * 100;
+                        progressBar.style.height =
+                            Math.max(0, Math.min(100, progressPercentage)) + "%";
+                    }
+                } else {
+                    // Hide progress bar when not in timeline section or if user hasn't scrolled yet
+                    if (progressBarVisible) {
+                        progressBar.style.opacity = "0";
+                        progressBarVisible = false;
+                    }
+                    progressBar.style.height = "0%";
+                }
+
+                // Update active states based on scroll position
+                timelineEvents.forEach((event, index) => {
+                    const rect = event.getBoundingClientRect();
+                    const isVisible =
+                        rect.top < window.innerHeight * 0.7 &&
+                        rect.bottom > window.innerHeight * 0.3;
+
+                    if (isVisible) {
+                        eventMarkers[index].classList.add("active");
+                        eventDescriptions[index].classList.add("active");
+                    } else {
+                        eventMarkers[index].classList.remove("active");
+                        eventDescriptions[index].classList.remove("active");
+                    }
+                });
+            });
+
+            // Small delay to ensure DOM is fully ready
+            setTimeout(() => {
+                window.dispatchEvent(new Event("scroll"));
+            }, 100);
+        }
+
+        // Initialize on DOM ready
+        document.addEventListener("DOMContentLoaded", function () {
+            initTimelineProgress();
+        });
+
+        //timeline section ends
+
+        //full sponser section starts
+
+        function viewSponsorshipDeck() {
+          // Open the sponsorship deck in a new browser tab for viewing
+          window.open("PEC-Hacks-3.0-Sponsorship-Deck.pdf", "_blank");
+        }
+
+        //full sponser section ends
+
+
