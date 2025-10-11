@@ -427,11 +427,11 @@ function updateHomeTimer() {
   // If the difference is negative, the event has passed
   if (diff <= 0) {
     document.querySelector(".home-timer").innerHTML = `
-                                <div class="home-timer-unit">
-                                    <div class="home-timer-value">00</div>
-                                    <div class="home-timer-label">Event Started</div>
-                                </div>
-                            `;
+                                    <div class="home-timer-unit">
+                                        <div class="home-timer-value">00</div>
+                                        <div class="home-timer-label">Event Started</div>
+                                    </div>
+                                `;
     return;
   }
 
@@ -540,6 +540,40 @@ document.addEventListener("DOMContentLoaded", function () {
   handleScroll();
 });
 //About section ends
+
+// DOMAIN CARDS INTERACTIVITY
+document.addEventListener("DOMContentLoaded", function () {
+  const domainCards = document.querySelectorAll(".pec-domain-card");
+
+  domainCards.forEach((card) => {
+    const cardData = card.querySelector(".pec-domain-card__data");
+
+    card.addEventListener("mouseenter", function () {
+      // Show data animation
+      cardData.style.animation = "pec-show-data 1s forwards";
+      cardData.style.opacity = "1";
+      cardData.style.transition = "opacity 0.3s";
+
+      // Remove overflow animation
+      card.style.animation = "pec-remove-overflow 2s forwards";
+    });
+
+    card.addEventListener("mouseleave", function () {
+      // Remove data animation
+      cardData.style.animation = "pec-remove-data 1s forwards";
+
+      // Show overflow animation
+      card.style.animation = "pec-show-overflow 2s forwards";
+
+      // After animation completes, reset opacity with delay
+      setTimeout(() => {
+        if (!card.matches(":hover")) {
+          cardData.style.opacity = "0";
+        }
+      }, 1000);
+    });
+  });
+});
 
 // Dome Gallery Script
 const WORLD_DEFAULT_IMAGES = [
@@ -1235,4 +1269,3 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   });
 });
-
