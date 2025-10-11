@@ -1176,6 +1176,232 @@
             overflow: hidden;
         }
 
+        /* Dome Gallery Styles */
+        .world-sphere-root {
+            position: relative;
+            width: 100%;
+            height: 90vh;
+            --radius: 520px;
+            --viewer-pad: 72px;
+            --circ: calc(var(--radius) * 3.14);
+            --rot-y: calc((360deg / var(--segments-x)) / 2);
+            --rot-x: calc((360deg / var(--segments-y)) / 2);
+            --item-width: calc(var(--circ) / var(--segments-x));
+            --item-height: calc(var(--circ) / var(--segments-y));
+            overflow: hidden;
+        }
+
+        .world-sphere-root * {
+            box-sizing: border-box;
+        }
+
+        .world-sphere,
+        .world-item,
+        .world-item__image {
+            transform-style: preserve-3d;
+        }
+
+        .world-main {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            touch-action: pan-y pinch-zoom;
+            user-select: none;
+            -webkit-user-select: none;
+            background: transparent;
+        }
+
+        .world-stage {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            perspective: calc(var(--radius) * 2);
+            perspective-origin: 50% 50%;
+            contain: layout paint size;
+        }
+
+        .world-sphere {
+            transform: translateZ(calc(var(--radius) * -1));
+            will-change: transform;
+        }
+
+        .world-overlay,
+        .world-overlay--blur {
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .world-overlay {
+            background-image: radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, #060010) 100%);
+        }
+
+        .world-overlay--blur {
+            -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+            mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+            backdrop-filter: blur(3px);
+        }
+
+        .world-item {
+            width: calc(var(--item-width) * var(--item-size-x));
+            height: calc(var(--item-height) * var(--item-size-y));
+            position: absolute;
+            top: -999px;
+            bottom: -999px;
+            left: -999px;
+            right: -999px;
+            margin: auto;
+            transform-origin: 50% 50%;
+            backface-visibility: hidden;
+            transition: transform 300ms;
+            transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
+                rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+                translateZ(var(--radius));
+        }
+
+        .world-item__image {
+            position: absolute;
+            display: block;
+            inset: 10px;
+            border-radius: var(--tile-radius, 12px);
+            background: transparent;
+            overflow: hidden;
+            backface-visibility: hidden;
+            transition: transform 300ms;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            pointer-events: auto;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+        .world-item__image:focus {
+            outline: none;
+        }
+
+        .world-item__image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            backface-visibility: hidden;
+            filter: var(--image-filter, none);
+        }
+
+        .world-viewer {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--viewer-pad);
+        }
+
+        .world-viewer .world-frame {
+            height: 100%;
+            aspect-ratio: 1;
+            border-radius: var(--enlarge-radius, 32px);
+            display: flex;
+        }
+
+        @media (max-aspect-ratio: 1/1) {
+            .world-viewer .world-frame {
+                height: auto;
+                width: 100%;
+            }
+        }
+
+        .world-viewer .world-scrim {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 500ms ease;
+            backdrop-filter: blur(3px);
+        }
+
+        .world-sphere-root[data-enlarging='true'] .world-viewer .world-scrim {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .world-viewer .world-enlarge {
+            position: absolute;
+            z-index: 30;
+            border-radius: var(--enlarge-radius, 32px);
+            overflow: hidden;
+            transition:
+                transform 500ms ease,
+                opacity 500ms ease;
+            transform-origin: top left;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .world-viewer .world-enlarge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: var(--image-filter, none);
+        }
+
+        .world-sphere-root .world-enlarge-closing img {
+            filter: var(--image-filter, none);
+        }
+
+        .world-edge-fade {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 120px;
+            z-index: 5;
+            pointer-events: none;
+            background: linear-gradient(to bottom, transparent, var(--overlay-blur-color, #060010));
+        }
+
+        .world-edge-fade--top {
+            top: 0;
+            transform: rotate(180deg);
+        }
+
+        .world-edge-fade--bottom {
+            bottom: 0;
+        }
+
+        /* Mobile-specific adjustments for Dome Gallery */
+        @media (max-width: 768px) {
+            .dome-gallery-section {
+                height: auto;
+                min-height: 80vh;
+                padding: 40px 0;
+            }
+            
+            .world-sphere-root {
+                height: 60vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dome-gallery-section {
+                height: auto;
+                min-height: 70vh;
+                padding: 30px 0;
+            }
+            
+            .world-sphere-root {
+                height: 50vh;
+            }
+        }
+
         /* Glimpse Section */
         .glimpse-section {
             position: relative;
@@ -4296,6 +4522,701 @@
           handleScroll();
         });
         //About section ends
+
+        // Dome Gallery Script
+        const WORLD_DEFAULT_IMAGES = [
+          {
+            src: "https://images.unsplash.com/photo-1755331039789-7e5680e26e8f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            alt: "Abstract art",
+          },
+          {
+            src: "https://images.unsplash.com/photo-1755569309049-98410b94f66d?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            alt: "Modern sculpture",
+          },
+          {
+            src: "https://images.unsplash.com/photo-1755497595318-7e5e3523854f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            alt: "Digital artwork",
+          },
+          {
+            src: "https://images.unsplash.com/photo-1755353985163-c2a0fe5ac3d8?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            alt: "Contemporary art",
+          },
+          {
+            src: "https://images.unsplash.com/photo-1745965976680-d00be7dc0377?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            alt: "Geometric pattern",
+          },
+          {
+            src: "https://images.unsplash.com/photo-1752588975228-21f44630bb3c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            alt: "Textured surface",
+          },
+          {
+            src: "https://pbs.twimg.com/media/Gyla7NnXMAAXSo_?format=jpg&name=large",
+            alt: "Social media image",
+          },
+        ];
+
+        const WORLD_DEFAULTS = {
+          maxVerticalRotationDeg: 5,
+          dragSensitivity: 20,
+          enlargeTransitionMs: 300,
+          segments: 35,
+        };
+
+        class WorldDomeGallery {
+          constructor(options = {}) {
+            this.config = {
+              images: options.images || WORLD_DEFAULT_IMAGES,
+              fit: options.fit || 0.5,
+              fitBasis: options.fitBasis || "auto",
+              minRadius: options.minRadius || 600,
+              maxRadius: options.maxRadius || Infinity,
+              padFactor: options.padFactor || 0.25,
+              overlayBlurColor: options.overlayBlurColor || "#060010",
+              maxVerticalRotationDeg:
+                options.maxVerticalRotationDeg || WORLD_DEFAULTS.maxVerticalRotationDeg,
+              dragSensitivity:
+                options.dragSensitivity || WORLD_DEFAULTS.dragSensitivity,
+              enlargeTransitionMs:
+                options.enlargeTransitionMs || WORLD_DEFAULTS.enlargeTransitionMs,
+              segments: options.segments || WORLD_DEFAULTS.segments,
+              dragDampening: options.dragDampening || 2,
+              openedImageWidth: options.openedImageWidth || "250px",
+              openedImageHeight: options.openedImageHeight || "350px",
+              imageBorderRadius: options.imageBorderRadius || "30px",
+              openedImageBorderRadius: options.openedImageBorderRadius || "30px",
+              grayscale: options.grayscale !== undefined ? options.grayscale : true,
+            };
+
+            this.root = document.getElementById("world-dome-gallery");
+            this.sphere = document.getElementById("world-sphere");
+            this.viewer = document.getElementById("world-viewer");
+            this.frame = document.getElementById("world-frame");
+            this.scrim = document.getElementById("world-scrim");
+
+            this.rotation = { x: 0, y: 0 };
+            this.startRot = { x: 0, y: 0 };
+            this.startPos = null;
+            this.dragging = false;
+            this.moved = false;
+            this.inertiaRAF = null;
+            this.opening = false;
+            this.openStartedAt = 0;
+            this.lastDragEndAt = 0;
+            this.lockedRadius = null;
+            this.focusedEl = null;
+            this.originalTilePosition = null;
+
+            this.init();
+          }
+
+          clamp(v, min, max) {
+            return Math.min(Math.max(v, min), max);
+          }
+
+          normalizeAngle(d) {
+            return ((d % 360) + 360) % 360;
+          }
+
+          wrapAngleSigned(deg) {
+            const a = (((deg + 180) % 360) + 360) % 360;
+            return a - 180;
+          }
+
+          getDataNumber(el, name, fallback) {
+            const attr = el.dataset[name] ?? el.getAttribute(`data-${name}`);
+            const n = attr == null ? NaN : parseFloat(attr);
+            return Number.isFinite(n) ? n : fallback;
+          }
+
+          buildItems(pool, seg) {
+            const xCols = Array.from({ length: seg }, (_, i) => -37 + i * 2);
+            const evenYs = [-4, -2, 0, 2, 4];
+            const oddYs = [-3, -1, 1, 3, 5];
+
+            const coords = xCols.flatMap((x, c) => {
+              const ys = c % 2 === 0 ? evenYs : oddYs;
+              return ys.map((y) => ({ x, y, sizeX: 2, sizeY: 2 }));
+            });
+
+            const totalSlots = coords.length;
+            if (pool.length === 0) {
+              return coords.map((c) => ({ ...c, src: "", alt: "" }));
+            }
+            if (pool.length > totalSlots) {
+              console.warn(
+                `[WorldDomeGallery] Provided image count (${pool.length}) exceeds available tiles (${totalSlots}). Some images will not be shown.`
+              );
+            }
+
+            const normalizedImages = pool.map((image) => {
+              if (typeof image === "string") {
+                return { src: image, alt: "" };
+              }
+              return { src: image.src || "", alt: image.alt || "" };
+            });
+
+            const usedImages = Array.from(
+              { length: totalSlots },
+              (_, i) => normalizedImages[i % normalizedImages.length]
+            );
+
+            for (let i = 1; i < usedImages.length; i++) {
+              if (usedImages[i].src === usedImages[i - 1].src) {
+                for (let j = i + 1; j < usedImages.length; j++) {
+                  if (usedImages[j].src !== usedImages[i].src) {
+                    const tmp = usedImages[i];
+                    usedImages[i] = usedImages[j];
+                    usedImages[j] = tmp;
+                    break;
+                  }
+                }
+              }
+            }
+
+            return coords.map((c, i) => ({
+              ...c,
+              src: usedImages[i].src,
+              alt: usedImages[i].alt,
+            }));
+          }
+
+          computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments) {
+            const unit = 360 / segments / 2;
+            const rotateY = unit * (offsetX + (sizeX - 1) / 2);
+            const rotateX = unit * (offsetY - (sizeY - 1) / 2);
+            return { rotateX, rotateY };
+          }
+
+          applyTransform(xDeg, yDeg) {
+            if (this.sphere) {
+              this.sphere.style.transform = `translateZ(calc(var(--radius) * -1)) rotateX(${xDeg}deg) rotateY(${yDeg}deg)`;
+            }
+          }
+
+          stopInertia() {
+            if (this.inertiaRAF) {
+              cancelAnimationFrame(this.inertiaRAF);
+              this.inertiaRAF = null;
+            }
+          }
+
+          startInertia(vx, vy) {
+            const MAX_V = 1.4;
+            let vX = this.clamp(vx, -MAX_V, MAX_V) * 80;
+            let vY = this.clamp(vy, -MAX_V, MAX_V) * 80;
+            let frames = 0;
+            const d = this.clamp(this.config.dragDampening ?? 0.6, 0, 1);
+            const frictionMul = 0.94 + 0.055 * d;
+            const stopThreshold = 0.015 - 0.01 * d;
+            const maxFrames = Math.round(90 + 270 * d);
+
+            const step = () => {
+              vX *= frictionMul;
+              vY *= frictionMul;
+              if (Math.abs(vX) < stopThreshold && Math.abs(vY) < stopThreshold) {
+                this.inertiaRAF = null;
+                return;
+              }
+              if (++frames > maxFrames) {
+                this.inertiaRAF = null;
+                return;
+              }
+              const nextX = this.clamp(
+                this.rotation.x - vY / 200,
+                -this.config.maxVerticalRotationDeg,
+                this.config.maxVerticalRotationDeg
+              );
+              const nextY = this.wrapAngleSigned(this.rotation.y + vX / 200);
+              this.rotation = { x: nextX, y: nextY };
+              this.applyTransform(nextX, nextY);
+              this.inertiaRAF = requestAnimationFrame(step);
+            };
+
+            this.stopInertia();
+            this.inertiaRAF = requestAnimationFrame(step);
+          }
+
+          handleDragStart(e) {
+            if (this.focusedEl) return;
+            this.stopInertia();
+            this.dragging = true;
+            this.moved = false;
+            this.startRot = { ...this.rotation };
+            this.startPos = { x: e.clientX, y: e.clientY };
+          }
+
+          handleDrag(e) {
+            if (this.focusedEl || !this.dragging || !this.startPos) return;
+
+            const dxTotal = e.clientX - this.startPos.x;
+            const dyTotal = e.clientY - this.startPos.y;
+
+            if (!this.moved) {
+              const dist2 = dxTotal * dxTotal + dyTotal * dyTotal;
+              if (dist2 > 16) this.moved = true;
+            }
+
+            const nextX = this.clamp(
+              this.startRot.x - dyTotal / this.config.dragSensitivity,
+              -this.config.maxVerticalRotationDeg,
+              this.config.maxVerticalRotationDeg
+            );
+            const nextY = this.wrapAngleSigned(
+              this.startRot.y + dxTotal / this.config.dragSensitivity
+            );
+
+            if (this.rotation.x !== nextX || this.rotation.y !== nextY) {
+              this.rotation = { x: nextX, y: nextY };
+              this.applyTransform(nextX, nextY);
+            }
+          }
+
+          handleDragEnd(e) {
+            if (!this.dragging) return;
+            this.dragging = false;
+
+            if (this.moved) this.lastDragEndAt = performance.now();
+            this.moved = false;
+          }
+
+          setupDragEvents() {
+            const main = document.querySelector(".world-main");
+
+            main.addEventListener("mousedown", this.handleDragStart.bind(this));
+            document.addEventListener("mousemove", this.handleDrag.bind(this));
+            document.addEventListener("mouseup", this.handleDragEnd.bind(this));
+
+            // Touch events
+            main.addEventListener("touchstart", (e) => {
+              e.preventDefault();
+              this.handleDragStart(e.touches[0]);
+            });
+
+            document.addEventListener("touchmove", (e) => {
+              e.preventDefault();
+              this.handleDrag(e.touches[0]);
+            });
+
+            document.addEventListener("touchend", (e) => {
+              e.preventDefault();
+              this.handleDragEnd(e);
+            });
+          }
+
+          setupResizeObserver() {
+            const ro = new ResizeObserver((entries) => {
+              const cr = entries[0].contentRect;
+              const w = Math.max(1, cr.width),
+                h = Math.max(1, cr.height);
+              const minDim = Math.min(w, h),
+                maxDim = Math.max(w, h),
+                aspect = w / h;
+              let basis;
+              switch (this.config.fitBasis) {
+                case "min":
+                  basis = minDim;
+                  break;
+                case "max":
+                  basis = maxDim;
+                  break;
+                case "width":
+                  basis = w;
+                  break;
+                case "height":
+                  basis = h;
+                  break;
+                default:
+                  basis = aspect >= 1.3 ? w : minDim;
+              }
+              let radius = basis * this.config.fit;
+              const heightGuard = h * 1.35;
+              radius = Math.min(radius, heightGuard);
+              radius = this.clamp(radius, this.config.minRadius, this.config.maxRadius);
+              this.lockedRadius = Math.round(radius);
+
+              const viewerPad = Math.max(8, Math.round(minDim * this.config.padFactor));
+              this.root.style.setProperty("--radius", `${this.lockedRadius}px`);
+              this.root.style.setProperty("--viewer-pad", `${viewerPad}px`);
+              this.root.style.setProperty(
+                "--overlay-blur-color",
+                this.config.overlayBlurColor
+              );
+              this.root.style.setProperty(
+                "--tile-radius",
+                this.config.imageBorderRadius
+              );
+              this.root.style.setProperty(
+                "--enlarge-radius",
+                this.config.openedImageBorderRadius
+              );
+              this.root.style.setProperty(
+                "--image-filter",
+                this.config.grayscale ? "grayscale(1)" : "none"
+              );
+              this.applyTransform(this.rotation.x, this.rotation.y);
+
+              const enlargedOverlay = this.viewer?.querySelector(".world-enlarge");
+              if (
+                enlargedOverlay &&
+                this.frame &&
+                document.querySelector(".world-main")
+              ) {
+                const frameR = this.frame.getBoundingClientRect();
+                const mainR = document
+                  .querySelector(".world-main")
+                  .getBoundingClientRect();
+
+                const hasCustomSize =
+                  this.config.openedImageWidth && this.config.openedImageHeight;
+                if (hasCustomSize) {
+                  const tempDiv = document.createElement("div");
+                  tempDiv.style.cssText = `position: absolute; width: ${this.config.openedImageWidth}; height: ${this.config.openedImageHeight}; visibility: hidden;`;
+                  document.body.appendChild(tempDiv);
+                  const tempRect = tempDiv.getBoundingClientRect();
+                  document.body.removeChild(tempDiv);
+
+                  const centeredLeft =
+                    frameR.left - mainR.left + (frameR.width - tempRect.width) / 2;
+                  const centeredTop =
+                    frameR.top - mainR.top + (frameR.height - tempRect.height) / 2;
+
+                  enlargedOverlay.style.left = `${centeredLeft}px`;
+                  enlargedOverlay.style.top = `${centeredTop}px`;
+                } else {
+                  enlargedOverlay.style.left = `${frameR.left - mainR.left}px`;
+                  enlargedOverlay.style.top = `${frameR.top - mainR.top}px`;
+                  enlargedOverlay.style.width = `${frameR.width}px`;
+                  enlargedOverlay.style.height = `${frameR.height}px`;
+                }
+              }
+            });
+            ro.observe(this.root);
+          }
+
+          closeEnlarged() {
+            if (performance.now() - this.openStartedAt < 250) return;
+            const el = this.focusedEl;
+            if (!el) return;
+            const parent = el.parentElement;
+            const overlay = this.viewer?.querySelector(".world-enlarge");
+            if (!overlay) return;
+            const refDiv = parent.querySelector(".world-item__image--reference");
+            const originalPos = this.originalTilePosition;
+            if (!originalPos) {
+              overlay.remove();
+              if (refDiv) refDiv.remove();
+              parent.style.setProperty("--rot-y-delta", "0deg");
+              parent.style.setProperty("--rot-x-delta", "0deg");
+              el.style.visibility = "";
+              el.style.zIndex = 0;
+              this.focusedEl = null;
+              this.root?.removeAttribute("data-enlarging");
+              this.opening = false;
+              return;
+            }
+            const currentRect = overlay.getBoundingClientRect();
+            const rootRect = this.root.getBoundingClientRect();
+            const originalPosRelativeToRoot = {
+              left: originalPos.left - rootRect.left,
+              top: originalPos.top - rootRect.top,
+              width: originalPos.width,
+              height: originalPos.height,
+            };
+            const overlayRelativeToRoot = {
+              left: currentRect.left - rootRect.left,
+              top: currentRect.top - rootRect.top,
+              width: currentRect.width,
+              height: currentRect.height,
+            };
+            const animatingOverlay = document.createElement("div");
+            animatingOverlay.className = "world-enlarge-closing";
+            animatingOverlay.style.cssText = `position:absolute;left:${overlayRelativeToRoot.left}px;top:${overlayRelativeToRoot.top}px;width:${overlayRelativeToRoot.width}px;height:${overlayRelativeToRoot.height}px;z-index:9999;border-radius: var(--enlarge-radius, 32px);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:all ${this.config.enlargeTransitionMs}ms ease-out;pointer-events:none;margin:0;transform:none;`;
+            const originalImg = overlay.querySelector("img");
+            if (originalImg) {
+              const img = originalImg.cloneNode();
+              img.style.cssText = "width:100%;height:100%;object-fit:cover;";
+              animatingOverlay.appendChild(img);
+            }
+            overlay.remove();
+            this.root.appendChild(animatingOverlay);
+            void animatingOverlay.getBoundingClientRect();
+            requestAnimationFrame(() => {
+              animatingOverlay.style.left = originalPosRelativeToRoot.left + "px";
+              animatingOverlay.style.top = originalPosRelativeToRoot.top + "px";
+              animatingOverlay.style.width = originalPosRelativeToRoot.width + "px";
+              animatingOverlay.style.height = originalPosRelativeToRoot.height + "px";
+              animatingOverlay.style.opacity = "0";
+            });
+            const cleanup = () => {
+              animatingOverlay.remove();
+              this.originalTilePosition = null;
+              if (refDiv) refDiv.remove();
+              parent.style.transition = "none";
+              el.style.transition = "none";
+              parent.style.setProperty("--rot-y-delta", "0deg");
+              parent.style.setProperty("--rot-x-delta", "0deg");
+              requestAnimationFrame(() => {
+                el.style.visibility = "";
+                el.style.opacity = "0";
+                el.style.zIndex = 0;
+                this.focusedEl = null;
+                this.root?.removeAttribute("data-enlarging");
+                requestAnimationFrame(() => {
+                  parent.style.transition = "";
+                  el.style.transition = "opacity 300ms ease-out";
+                  requestAnimationFrame(() => {
+                    el.style.opacity = "1";
+                    setTimeout(() => {
+                      el.style.transition = "";
+                      el.style.opacity = "";
+                      this.opening = false;
+                    }, 300);
+                  });
+                });
+              });
+            };
+            animatingOverlay.addEventListener("transitionend", cleanup, { once: true });
+          }
+
+          setupCloseEvents() {
+            this.scrim.addEventListener("click", this.closeEnlarged.bind(this));
+
+            const onKey = (e) => {
+              if (e.key === "Escape") this.closeEnlarged();
+            };
+            window.addEventListener("keydown", onKey);
+          }
+
+          openItemFromElement(el) {
+            if (this.opening) return;
+            this.opening = true;
+            this.openStartedAt = performance.now();
+            const parent = el.parentElement;
+            this.focusedEl = el;
+            el.setAttribute("data-focused", "true");
+            const offsetX = this.getDataNumber(parent, "offsetX", 0);
+            const offsetY = this.getDataNumber(parent, "offsetY", 0);
+            const sizeX = this.getDataNumber(parent, "sizeX", 2);
+            const sizeY = this.getDataNumber(parent, "sizeY", 2);
+            const parentRot = this.computeItemBaseRotation(
+              offsetX,
+              offsetY,
+              sizeX,
+              sizeY,
+              this.config.segments
+            );
+            const parentY = this.normalizeAngle(parentRot.rotateY);
+            const globalY = this.normalizeAngle(this.rotation.y);
+            let rotY = -(parentY + globalY) % 360;
+            if (rotY < -180) rotY += 360;
+            const rotX = -parentRot.rotateX - this.rotation.x;
+            parent.style.setProperty("--rot-y-delta", `${rotY}deg`);
+            parent.style.setProperty("--rot-x-delta", `${rotX}deg`);
+            const refDiv = document.createElement("div");
+            refDiv.className = "world-item__image world-item__image--reference";
+            refDiv.style.opacity = "0";
+            refDiv.style.transform = `rotateX(${-parentRot.rotateX}deg) rotateY(${-parentRot.rotateY}deg)`;
+            parent.appendChild(refDiv);
+            const tileR = refDiv.getBoundingClientRect();
+            const mainR = document.querySelector(".world-main").getBoundingClientRect();
+            const frameR = this.frame.getBoundingClientRect();
+            this.originalTilePosition = {
+              left: tileR.left,
+              top: tileR.top,
+              width: tileR.width,
+              height: tileR.height,
+            };
+            el.style.visibility = "hidden";
+            el.style.zIndex = 0;
+            const overlay = document.createElement("div");
+            overlay.className = "world-enlarge";
+            overlay.style.position = "absolute";
+            overlay.style.left = frameR.left - mainR.left + "px";
+            overlay.style.top = frameR.top - mainR.top + "px";
+            overlay.style.width = frameR.width + "px";
+            overlay.style.height = frameR.height + "px";
+            overlay.style.opacity = "0";
+            overlay.style.zIndex = "30";
+            overlay.style.willChange = "transform, opacity";
+            overlay.style.transformOrigin = "top left";
+            overlay.style.transition = `transform ${this.config.enlargeTransitionMs}ms ease, opacity ${this.config.enlargeTransitionMs}ms ease`;
+            const rawSrc = parent.dataset.src || el.querySelector("img")?.src || "";
+            const img = document.createElement("img");
+            img.src = rawSrc;
+            overlay.appendChild(img);
+            this.viewer.appendChild(overlay);
+            const tx0 = tileR.left - frameR.left;
+            const ty0 = tileR.top - frameR.top;
+            const sx0 = tileR.width / frameR.width;
+            const sy0 = tileR.height / frameR.height;
+            overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${sx0}, ${sy0})`;
+            requestAnimationFrame(() => {
+              overlay.style.opacity = "1";
+              overlay.style.transform = "translate(0px, 0px) scale(1,1)";
+              this.root?.setAttribute("data-enlarging", "true");
+            });
+            const wantsResize =
+              this.config.openedImageWidth || this.config.openedImageHeight;
+            if (wantsResize) {
+              const onFirstEnd = (ev) => {
+                if (ev.propertyName !== "transform") return;
+                overlay.removeEventListener("transitionend", onFirstEnd);
+                const prevTransition = overlay.style.transition;
+                overlay.style.transition = "none";
+                const tempWidth = this.config.openedImageWidth || `${frameR.width}px`;
+                const tempHeight =
+                  this.config.openedImageHeight || `${frameR.height}px`;
+                overlay.style.width = tempWidth;
+                overlay.style.height = tempHeight;
+                const newRect = overlay.getBoundingClientRect();
+                overlay.style.width = frameR.width + "px";
+                overlay.style.height = frameR.height + "px";
+                void overlay.offsetWidth;
+                overlay.style.transition = `left ${this.config.enlargeTransitionMs}ms ease, top ${this.config.enlargeTransitionMs}ms ease, width ${this.config.enlargeTransitionMs}ms ease, height ${this.config.enlargeTransitionMs}ms ease`;
+                const centeredLeft =
+                  frameR.left - mainR.left + (frameR.width - newRect.width) / 2;
+                const centeredTop =
+                  frameR.top - mainR.top + (frameR.height - newRect.height) / 2;
+                requestAnimationFrame(() => {
+                  overlay.style.left = `${centeredLeft}px`;
+                  overlay.style.top = `${centeredTop}px`;
+                  overlay.style.width = tempWidth;
+                  overlay.style.height = tempHeight;
+                });
+                const cleanupSecond = () => {
+                  overlay.removeEventListener("transitionend", cleanupSecond);
+                  overlay.style.transition = prevTransition;
+                };
+                overlay.addEventListener("transitionend", cleanupSecond, {
+                  once: true,
+                });
+              };
+              overlay.addEventListener("transitionend", onFirstEnd);
+            }
+          }
+
+          onTileClick(e) {
+            if (this.dragging) return;
+            if (performance.now() - this.lastDragEndAt < 80) return;
+            if (this.opening) return;
+            this.openItemFromElement(e.currentTarget);
+          }
+
+          onTilePointerUp(e) {
+            if (e.pointerType !== "touch") return;
+            if (this.dragging) return;
+            if (performance.now() - this.lastDragEndAt < 80) return;
+            if (this.opening) return;
+            this.openItemFromElement(e.currentTarget);
+          }
+
+          onTileTouchEnd(e) {
+            if (this.dragging) return;
+            if (performance.now() - this.lastDragEndAt < 80) return;
+            if (this.opening) return;
+            this.openItemFromElement(e.currentTarget);
+          }
+
+          setupTileEvents() {
+            // This will be called after the tiles are created
+            const tiles = document.querySelectorAll(".world-item__image");
+            tiles.forEach((tile) => {
+              tile.addEventListener("click", this.onTileClick.bind(this));
+              tile.addEventListener("pointerup", this.onTilePointerUp.bind(this));
+              tile.addEventListener("touchend", this.onTileTouchEnd.bind(this));
+            });
+          }
+
+          init() {
+            // Set initial CSS variables
+            this.root.style.setProperty("--segments-x", this.config.segments);
+            this.root.style.setProperty("--segments-y", this.config.segments);
+            this.root.style.setProperty(
+              "--overlay-blur-color",
+              this.config.overlayBlurColor
+            );
+            this.root.style.setProperty("--tile-radius", this.config.imageBorderRadius);
+            this.root.style.setProperty(
+              "--enlarge-radius",
+              this.config.openedImageBorderRadius
+            );
+            this.root.style.setProperty(
+              "--image-filter",
+              this.config.grayscale ? "grayscale(1)" : "none"
+            );
+
+            // Build and render items
+            const items = this.buildItems(this.config.images, this.config.segments);
+
+            items.forEach((it, i) => {
+              const itemEl = document.createElement("div");
+              itemEl.className = "world-item";
+              itemEl.dataset.src = it.src;
+              itemEl.dataset.offsetX = it.x;
+              itemEl.dataset.offsetY = it.y;
+              itemEl.dataset.sizeX = it.sizeX;
+              itemEl.dataset.sizeY = it.sizeY;
+              itemEl.style.setProperty("--offset-x", it.x);
+              itemEl.style.setProperty("--offset-y", it.y);
+              itemEl.style.setProperty("--item-size-x", it.sizeX);
+              itemEl.style.setProperty("--item-size-y", it.sizeY);
+
+              const imageEl = document.createElement("div");
+              imageEl.className = "world-item__image";
+              imageEl.setAttribute("role", "button");
+              imageEl.setAttribute("tabIndex", "0");
+              imageEl.setAttribute("aria-label", it.alt || "Open image");
+
+              const img = document.createElement("img");
+              img.src = it.src;
+              img.draggable = false;
+              img.alt = it.alt;
+
+              imageEl.appendChild(img);
+              itemEl.appendChild(imageEl);
+              this.sphere.appendChild(itemEl);
+            });
+
+            // Apply initial transform
+            this.applyTransform(this.rotation.x, this.rotation.y);
+
+            // Setup events
+            this.setupDragEvents();
+            this.setupResizeObserver();
+            this.setupCloseEvents();
+            this.setupTileEvents();
+          }
+        }
+
+        // Initialize the gallery when the DOM is loaded
+        document.addEventListener("DOMContentLoaded", () => {
+          new WorldDomeGallery();
+        });
+
+        // Mobile touch event handler to ensure buttons work
+        document.addEventListener("DOMContentLoaded", function () {
+          // Add touch event listeners to ensure buttons work on mobile
+          const buttons = document.querySelectorAll(".home-space-button");
+
+          buttons.forEach((button) => {
+            // Prevent default touch behavior that might interfere
+            button.addEventListener(
+              "touchstart",
+              function (e) {
+                e.stopPropagation();
+              },
+              { passive: true }
+            );
+
+            button.addEventListener(
+              "touchend",
+              function (e) {
+                e.stopPropagation();
+              },
+              { passive: true }
+            );
+          });
+        });
 
         //Domains section
 
