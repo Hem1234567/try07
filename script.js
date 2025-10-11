@@ -541,7 +541,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //About section ends
 
-// DOMAIN CARDS INTERACTIVITY
+// DOMAIN CARDS INTERACTIVITY - Fixed z-index version
 document.addEventListener("DOMContentLoaded", function () {
   const domainCards = document.querySelectorAll(".pec-domain-card");
 
@@ -571,6 +571,29 @@ document.addEventListener("DOMContentLoaded", function () {
           cardData.style.opacity = "0";
         }
       }, 1000);
+    });
+
+    // Add touch events for mobile
+    card.addEventListener("touchstart", function (e) {
+      e.preventDefault();
+      // Trigger the same animation as hover
+      cardData.style.animation = "pec-show-data 1s forwards";
+      cardData.style.opacity = "1";
+      cardData.style.transition = "opacity 0.3s";
+      card.style.animation = "pec-remove-overflow 2s forwards";
+    });
+
+    card.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      // Keep the card data visible for a moment on mobile for better UX
+      setTimeout(() => {
+        cardData.style.animation = "pec-remove-data 1s forwards";
+        card.style.animation = "pec-show-overflow 2s forwards";
+        
+        setTimeout(() => {
+          cardData.style.opacity = "0";
+        }, 1000);
+      }, 2000);
     });
   });
 });
