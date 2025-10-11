@@ -1560,6 +1560,7 @@
             padding: 80px 20px;
             background: transparent;
             width: 100%;
+            z-index: 30;
         }
 
         .domains-container {
@@ -1642,6 +1643,7 @@
             margin: 0 auto;
             max-width: 328px;
             height: 250px;
+            z-index: 1000;
             cursor: pointer;
             transition: all 0.4s ease;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -1817,6 +1819,7 @@
             position: relative;
             padding: 60px 0;
             background: transparent;
+            z-index: 30;
         }
         
         .timeline-container {
@@ -2145,6 +2148,7 @@
             justify-content: center;
             padding: 40px 20px;
             background: transparent;
+            z-index: 30;
         }
 
         .prize-cards-wrapper {
@@ -2180,6 +2184,7 @@
             transition: transform 500ms;
             box-shadow: 0px 0px 15px 3px #000000ee;
             border-radius: 10px;
+            z-index: 1000;
         }
 
         .prize-front-side, .prize-back-side {
@@ -2590,6 +2595,7 @@
             padding: 5rem 1rem;
             background: transparent;
             width: 100%;
+            z-index: 30;
         }
 
         .partners-container {
@@ -2902,6 +2908,7 @@
         .partners-cta {
             text-align: center;
             margin-top: 2rem;
+            z-index: 30;
         }
 
         .partners-cta-card {
@@ -2942,6 +2949,7 @@
             gap: 1rem;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
 
         .partners-cta-button {
@@ -2957,6 +2965,7 @@
             letter-spacing: 0.5px;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
+            z-index: 1000;
         }
 
         .partners-cta-button:hover {
