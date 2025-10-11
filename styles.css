@@ -3311,3 +3311,172 @@
                 height: 50px;
             }
         }
+
+        /* Add this CSS to your existing styles.css file */
+
+/* Fix for mobile z-index issues */
+@media (max-width: 768px) {
+  /* Ensure proper stacking context for all sections */
+  .about-section,
+  .dome-gallery-section,
+  .glimpse-section,
+  .domains-section,
+  .timeline-section,
+  .prize-container,
+  .partners-section {
+    position: relative;
+    z-index: 20;
+    transform: translateZ(0); /* Force hardware acceleration */
+  }
+  
+  /* Fix for starfield canvas z-index */
+  .starfield-canvas {
+    z-index: -1 !important;
+  }
+  
+  /* Fix for home section buttons */
+  .home-button-container {
+    z-index: 1000;
+    position: relative;
+  }
+  
+  .home-galaxy-button,
+  .home-space-btn-wrapper {
+    z-index: 1001;
+    position: relative;
+  }
+  
+  /* Fix for about section */
+  .about-section .about-relative-z-10 {
+    z-index: 10;
+    position: relative;
+  }
+  
+  /* Fix for gallery section */
+  .dome-gallery-section {
+    z-index: 25;
+  }
+  
+  .world-sphere-root {
+    z-index: 1;
+  }
+  
+  /* Fix for domains section */
+  .domains-cards-container {
+    z-index: 20;
+    position: relative;
+  }
+  
+  /* Fix for timeline section */
+  .timeline-component {
+    z-index: 20;
+    position: relative;
+  }
+  
+  /* Fix for prizes section */
+  .prize-container {
+    z-index: 20;
+    position: relative;
+  }
+  
+  /* Fix for partners section */
+  .partners-container {
+    z-index: 20;
+    position: relative;
+  }
+  
+  /* Ensure cursor doesn't interfere on mobile */
+  .target-cursor-wrapper {
+    display: none !important;
+  }
+}
+
+/* Additional mobile-specific fixes */
+@media (max-width: 480px) {
+  /* Fix for overlapping content in about section */
+  .about-stats-container {
+    z-index: 5;
+    position: relative;
+  }
+  
+  .about-patrons-grid {
+    z-index: 5;
+    position: relative;
+  }
+  
+  .about-association-container {
+    z-index: 5;
+    position: relative;
+  }
+  
+  /* Fix for domains cards */
+  .domains-card {
+    z-index: 5;
+    position: relative;
+  }
+  
+  /* Fix for timeline markers */
+  .timeline-event-marker {
+    z-index: 10;
+  }
+  
+  /* Fix for prize cards */
+  .prize-card-item {
+    z-index: 5;
+    position: relative;
+  }
+  
+  /* Fix for partner cards */
+  .partners-card {
+    z-index: 5;
+    position: relative;
+  }
+}
+
+/* General z-index fixes for all devices */
+.starfield-canvas {
+  z-index: -1;
+}
+
+.home-main-container {
+  z-index: 10;
+}
+
+.about-section {
+  z-index: 20;
+}
+
+.dome-gallery-section {
+  z-index: 25;
+}
+
+.glimpse-section {
+  z-index: 20;
+}
+
+.domains-section {
+  z-index: 20;
+}
+
+.timeline-section {
+  z-index: 20;
+}
+
+.prize-container {
+  z-index: 20;
+}
+
+.partners-section {
+  z-index: 20;
+}
+
+/* Ensure buttons and interactive elements have proper z-index */
+.home-space-button,
+.domains-card,
+.timeline-event-marker,
+.prize-card-item,
+.partners-item,
+.partners-cta-button {
+  position: relative;
+  z-index: 5;
+}
