@@ -2957,6 +2957,7 @@
             letter-spacing: 0.5px;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
+            z-index: 1000;
         }
 
         .partners-cta-button:hover {
@@ -3139,6 +3140,7 @@
             .partners-cta-button {
                 font-size: 1rem;
                 padding: 0.5rem 1rem;
+                
             }
             
             .partners-contact-text, .partners-contact-email {
