@@ -2590,6 +2590,7 @@
             padding: 5rem 1rem;
             background: transparent;
             width: 100%;
+            z-index: 1000;
         }
 
         .partners-container {
@@ -2957,7 +2958,7 @@
             letter-spacing: 0.5px;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
-            z-index: 1000;
+            
         }
 
         .partners-cta-button:hover {
