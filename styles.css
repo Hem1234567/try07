@@ -3480,3 +3480,21 @@
   position: relative;
   z-index: 5;
 }
+
+/* EMERGENCY MOBILE FIX - Add this via browser dev tools */
+@media (max-width: 768px) {
+  .starfield-canvas { display: none !important; }
+  body { background: #000 !important; }
+  .home-main-container,
+  .about-section,
+  .dome-gallery-section,
+  .glimpse-section,
+  .domains-section,
+  .timeline-section,
+  .prize-container,
+  .partners-section {
+    background: #000 !important;
+    position: relative !important;
+    z-index: 100 !important;
+  }
+}
