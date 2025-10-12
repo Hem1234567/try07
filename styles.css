@@ -1150,251 +1150,7 @@
 
         /*About section ends*/
 
-        /* DOMAIN SECTION STYLES */
-        .domain-section {
-            position: relative;
-            padding: 80px 0;
-            background: transparent;
-            z-index: 30;
-            min-height: 100vh;
-            height: auto;
-        }
-
-        .domain-heading {
-            position: relative;
-            text-align: center;
-            margin-bottom: 100px;
-            margin-top: 100px;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
         
-        .domain-heading-shadow {
-            font-size: 120px;
-            color: rgba(255, 255, 255, 0.1);
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            user-select: none;
-            font-family: 'Transformers', sans-serif;
-            width: 100%;
-            margin: 0;
-            line-height: 1;
-        }
-        
-        .domain-heading-small {
-            display: flex;
-            justify-content: center;
-            font-size: 88px;
-            font-weight: bold;
-            color: #fff;
-            position: relative;
-            z-index: 1;
-            font-family: 'Transformers', sans-serif !important;
-            margin: 0;
-            line-height: 1;
-            align-items: center;
-        }
-        
-        .domain-heading-small div {
-            overflow: hidden;
-            height: 98px;
-        }
-        
-        .domain-heading-small div div {
-            transform: translateY(0%);
-            will-change: auto;
-        }
-
-        /* DOMAIN CARDS SECTION STYLES */
-        /* DOMAIN CARDS SECTION STYLES */
-.pec-domain-cards-container {
-    display: grid;
-    place-items: center;
-    margin-inline: 1.5rem;
-    padding-block: 2rem;
-}
-
-.pec-domain-cards-wrapper {
-    display: grid;
-    row-gap: 3.5rem;
-    grid-template-columns: 1fr;
-    width: 100%;
-    max-width: 1200px;
-}
-
-.pec-domain-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 1.5rem;
-    margin: 0 auto;
-    max-width: 328px;
-    /* Fix z-index stacking context */
-    z-index: 1;
-}
-
-.pec-domain-card__img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 1.5rem;
-    position: relative;
-    z-index: 1;
-}
-
-.pec-domain-card__data {
-    width: 210px;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 1.5rem 1.5rem;
-    box-shadow: 0 8px 24px rgba(126, 227, 255, 0.15);
-    border: 1px solid rgba(125, 227, 255, 0.3);
-    border-radius: 1rem;
-    position: absolute;
-    bottom: -9rem;
-    left: 0;
-    right: 0;
-    margin-inline: auto;
-    opacity: 0;
-    transition: opacity 1s 1s;
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    /* Fix z-index - make sure it appears above other elements */
-    z-index: 100;
-    /* Ensure it's touchable */
-    pointer-events: auto;
-}
-
-.pec-domain-card__description {
-    display: block;
-    font-size: 0.875rem;
-    margin-bottom: .25rem;
-    color: white;
-    font-family: 'Rajdhani', sans-serif;
-    text-align: center;
-}
-
-.pec-domain-card__title {
-    font-size: 1.9rem;
-    font-weight: 600;
-    color: white;
-    margin-bottom: .75rem;
-    font-family: 'Teko', sans-serif;
-    text-align: center;
-    width: 100%;
-}
-
-.pec-domain-card__button {
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: white;
-    font-family: 'Rajdhani', sans-serif;
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.pec-domain-card__button:hover {
-    text-decoration: underline;
-    color: #8f51ea;
-}
-
-/* Card animation */
-@keyframes pec-show-data {
-    50% {
-        transform: translateY(-10rem);
-    }
-    100% {
-        transform: translateY(-7rem);
-    }
-}
-
-@keyframes pec-remove-overflow {
-    to {
-        overflow: initial;
-    }
-}
-
-@keyframes pec-remove-data {
-    0% {
-        transform: translateY(-7rem);
-    }
-    50% {
-        transform: translateY(-10rem);
-    }
-    100% {
-        transform: translateY(.5rem);
-    }
-}
-
-@keyframes pec-show-overflow {
-    0% {
-        overflow: initial;
-        pointer-events: none;
-    }
-    50% {
-        overflow: hidden;
-    }
-}
-
-/* For medium devices */
-@media screen and (min-width: 768px) {
-    .pec-domain-cards-wrapper {
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 1.5rem;
-    }
-}
-
-/* For large devices */
-@media screen and (min-width: 1120px) {
-    .pec-domain-cards-wrapper {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    .pec-domain-card__img {
-        height: 320px;
-    }
-    .pec-domain-card__data {
-        width: 216px;
-        padding-inline: 2.5rem;
-    }
-}
-
-@media (max-width: 340px) {
-    .pec-domain-cards-container {
-        margin-inline: 1rem;
-    }
-    
-    .pec-domain-card__data {
-        width: 190px;
-        padding: 1rem;
-    }
-}
-
-/* Mobile-specific z-index fixes */
-@media (max-width: 768px) {
-    .pec-domain-card {
-        z-index: 10;
-        /* Ensure mobile touch works */
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    .pec-domain-card__data {
-        z-index: 1000; /* Very high z-index for mobile */
-        /* Ensure it's above everything on mobile */
-        transform: translateZ(0);
-    }
-    
-    .domain-section {
-        /* Create stacking context for the entire section */
-        position: relative;
-        z-index: 5;
-    }
-}
 
         /* Dome Gallery Section */
         .dome-gallery-section {
@@ -1798,3 +1554,250 @@
                 height: 40px;
             }
         }
+
+        /*domain section starts*/
+        /* DOMAIN SECTION STYLES */
+        .domain-section {
+            position: relative;
+            padding: 80px 0;
+            background: transparent;
+            z-index: 30;
+            min-height: 100vh;
+            height: auto;
+        }
+
+        .domain-heading {
+            position: relative;
+            text-align: center;
+            margin-bottom: 100px;
+            margin-top: 100px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .domain-heading-shadow {
+            font-size: 120px;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            user-select: none;
+            font-family: 'Transformers', sans-serif;
+            width: 100%;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .domain-heading-small {
+            display: flex;
+            justify-content: center;
+            font-size: 88px;
+            font-weight: bold;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            font-family: 'Transformers', sans-serif !important;
+            margin: 0;
+            line-height: 1;
+            align-items: center;
+        }
+        
+        .domain-heading-small div {
+            overflow: hidden;
+            height: 98px;
+        }
+        
+        .domain-heading-small div div {
+            transform: translateY(0%);
+            will-change: auto;
+        }
+
+        /* DOMAIN CARDS SECTION STYLES */
+        /* DOMAIN CARDS SECTION STYLES */
+.pec-domain-cards-container {
+    display: grid;
+    place-items: center;
+    margin-inline: 1.5rem;
+    padding-block: 2rem;
+}
+
+.pec-domain-cards-wrapper {
+    display: grid;
+    row-gap: 3.5rem;
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.pec-domain-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    margin: 0 auto;
+    max-width: 328px;
+    /* Fix z-index stacking context */
+    z-index: 1;
+}
+
+.pec-domain-card__img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.pec-domain-card__data {
+    width: 210px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 1.5rem 1.5rem;
+    box-shadow: 0 8px 24px rgba(126, 227, 255, 0.15);
+    border: 1px solid rgba(125, 227, 255, 0.3);
+    border-radius: 1rem;
+    position: absolute;
+    bottom: -9rem;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    opacity: 0;
+    transition: opacity 1s 1s;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    /* Fix z-index - make sure it appears above other elements */
+    z-index: 100;
+    /* Ensure it's touchable */
+    pointer-events: auto;
+}
+
+.pec-domain-card__description {
+    display: block;
+    font-size: 0.875rem;
+    margin-bottom: .25rem;
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    text-align: center;
+}
+
+.pec-domain-card__title {
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: .75rem;
+    font-family: 'Teko', sans-serif;
+    text-align: center;
+    width: 100%;
+}
+
+.pec-domain-card__button {
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.pec-domain-card__button:hover {
+    text-decoration: underline;
+    color: #8f51ea;
+}
+
+/* Card animation */
+@keyframes pec-show-data {
+    50% {
+        transform: translateY(-10rem);
+    }
+    100% {
+        transform: translateY(-7rem);
+    }
+}
+
+@keyframes pec-remove-overflow {
+    to {
+        overflow: initial;
+    }
+}
+
+@keyframes pec-remove-data {
+    0% {
+        transform: translateY(-7rem);
+    }
+    50% {
+        transform: translateY(-10rem);
+    }
+    100% {
+        transform: translateY(.5rem);
+    }
+}
+
+@keyframes pec-show-overflow {
+    0% {
+        overflow: initial;
+        pointer-events: none;
+    }
+    50% {
+        overflow: hidden;
+    }
+}
+
+/* For medium devices */
+@media screen and (min-width: 768px) {
+    .pec-domain-cards-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 1.5rem;
+    }
+}
+
+/* For large devices */
+@media screen and (min-width: 1120px) {
+    .pec-domain-cards-wrapper {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .pec-domain-card__img {
+        height: 320px;
+    }
+    .pec-domain-card__data {
+        width: 216px;
+        padding-inline: 2.5rem;
+    }
+}
+
+@media (max-width: 340px) {
+    .pec-domain-cards-container {
+        margin-inline: 1rem;
+    }
+    
+    .pec-domain-card__data {
+        width: 190px;
+        padding: 1rem;
+    }
+}
+
+/* Mobile-specific z-index fixes */
+@media (max-width: 768px) {
+    .pec-domain-card {
+        z-index: 10;
+        /* Ensure mobile touch works */
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .pec-domain-card__data {
+        z-index: 1000; /* Very high z-index for mobile */
+        /* Ensure it's above everything on mobile */
+        transform: translateZ(0);
+    }
+    
+    .domain-section {
+        /* Create stacking context for the entire section */
+        position: relative;
+        z-index: 5;
+    }
+}
