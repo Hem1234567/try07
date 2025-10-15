@@ -127,6 +127,7 @@
             font-size: 1.5rem;
             z-index: 1001;
             transition: color 0.3s ease;
+            margin-right: 10px;
         }
 
         .navbars-menu-btn:hover {
@@ -3567,7 +3568,7 @@
             margin-top: 1rem;
             justify-content: center;
             align-items: center;
-            
+
         }
         
         .social-icon {
