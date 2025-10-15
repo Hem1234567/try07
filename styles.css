@@ -858,7 +858,7 @@
             
             /* Adjust Devfolio button for extra small screens */
             .devfolio-btn {
-                max-width: 350px;
+                max-width: 650px;
             }
             
             .devfolio-btn img {
