@@ -1037,7 +1037,7 @@
 
         .stat-box-large {
             grid-column: span 2;
-            min-height: 180px;
+            min-height: 140px;
         }
 
         .stat-box-small {
@@ -1051,13 +1051,13 @@
         }
 
         .stat-icon {
-            font-size: 45px;
+            font-size: 35px;
             margin-bottom: 10px;
             color: #7ee3ff;
         }
 
         .stat-number {
-            font-size: 32px;
+            font-size: 22px;
             font-weight: bold;
             color: white;
             font-family: 'Teko', sans-serif;
