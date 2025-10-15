@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Sprite-Based FAQ Flip Carousel</title>
+    <style>
+        
+
+        @font-face {
+            font-family: PixelText;
+            src: url(https://assets.codepen.io/36869/Grand9KPixel.ttf);
+        }
+
+        :root {
+            font-family: 'PixelText', serif;
+            font-optical-sizing: auto;
+            line-height: 1.5;
+            font-weight: 400;
+
+            color-scheme: light dark;
+            color: rgba(255, 255, 255, 0.87);
+            background-color: #242424;
+
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
+
+            /* sprite image */
+            --sprite-image: url(https://assets.codepen.io/36869/book.webp);
+
+            /* sprite animation settings */
+            /* animation duration */
+            --sprite-as: .8s;
+            /* animation direction */
+            --sprite-ad: normal;
+            /* animation fill mode */
+            --sprite-af: none;
+            /* animation play state */
+            --sprite-ap: running;
+            /* animation iteration count */
+            --sprite-ai: infinite;
+            /* animation timing function */
+            --sprite-at: linear;
+            /* animation frame rate */
+            --sprite-fr: 12;
+        }
+
+        .books-sprite-wrapper {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Frame start position */
+        @property --sprite-fs {
+            syntax: "<integer>";
+            initial-value: 0;
+            inherits: true
+        }
+
+        @property --_progress {
+            syntax: "<percentage>";
+            inherits: false;
+            initial-value: 0%;
+        }
+
+        .books-container {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            gap: 3rem;
+
+            /* sprite columns */
+            --sprite-c: 5;
+            /* sprite image height */
+            --sprite-h: 3000;
+            /* sprite image width */
+            --sprite-w: 9600;
+            /* sprite frames */
+            --sprite-f: 7;
+            /* animation duration based on frame rate */
+            --sprite-as: calc(var(--sprite-f) / var(--sprite-fr) * 1s);
+
+            /* frame rows */
+            --sprite-r: round(up, calc(var(--sprite-f) / var(--sprite-c)), 1);
+            /* frame height */
+            --sprite-sh: calc(var(--sprite-h) / var(--sprite-r));
+            /* frame target height, width */
+            --sprite-th: calc(var(--sprite-sh) / 2);
+
+            /* aspect ratio */
+            --sprite-ar: calc(var(--sprite-th) / var(--sprite-sh));
+            --sprite-uh: calc(var(--sprite-h) * var(--sprite-ar));
+            --sprite-uw: calc(var(--sprite-w) * var(--sprite-ar));
+
+            /* frame width */
+            --sprite-tw: calc(var(--sprite-uw) / var(--sprite-c));
+
+            width: 100%;
+            max-width: 1200px;
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .books-container > h1 {
+            color: #d2d4e1;
+            margin: 0;
+            width: fit-content;
+            font-weight: 500;
+            font-size: 1.75rem;
+            text-align: center;
+            align-self: center;
+        }
+
+        .books-book {
+            position: relative;
+            display: grid;
+            grid-template-areas:
+                "scroll scroll scroll"
+                "left markers right";
+            gap: 1rem;
+        }
+
+        .books-sprite {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: calc(1px * var(--sprite-th));
+            width: calc(1px * var(--sprite-tw));
+            margin: calc(-1px * calc((var(--sprite-th) - (var(--sprite-th) * 0.6107)) / 2)) calc(-1px * calc((var(--sprite-tw) - (var(--sprite-tw) * 0.7042)) / 2));
+            background-image: var(--sprite-image);
+            transform-origin: center center;
+            background-repeat: no-repeat;
+            background-size: calc(1px * var(--sprite-uw)) calc(1px * var(--sprite-uh));
+            z-index: -1;
+
+            /* Frame end position */
+            --sprite-fe: calc(var(--sprite-f) * (var(--slides) - 1));
+            --sprite-fs-n: mod(var(--sprite-fs), var(--sprite-f));
+            /* calculate the row and column position */
+            --row: calc(round(down, calc(calc(var(--sprite-tw) * var(--sprite-fs-n)) / var(--sprite-uw)), 1) * var(--sprite-th));
+            --col: mod(calc(var(--sprite-tw) * var(--sprite-fs-n)), var(--sprite-uw));
+
+            background-position: calc(-1px * var(--col)) calc(-1px * var(--row));
+            animation: frame var(--sprite-as) var(--sprite-at) 0s var(--sprite-ad) var(--sprite-af) var(--sprite-ap);
+            animation-timeline: --carousel-timeline;
+        }
+
+        .books-carousel {
+            counter-increment: curpage;
+            grid-area: scroll;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            overscroll-behavior-x: contain;
+
+            display: grid;
+            margin: 0 auto;
+            width: calc(1px * (var(--sprite-tw) * 0.7042));
+            height: calc(1px * (var(--sprite-th) * 0.6107));
+            grid: 1fr / auto-flow 100%;
+            scroll-timeline: --carousel-timeline x;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            scroll-marker-group: after;
+        }
+
+        .books-carousel::scroll-button(*) {
+            inline-size: 64px;
+            aspect-ratio: 1;
+            border-radius: 0;
+            border: 0;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .books-carousel::scroll-button(*):disabled {
+            filter: invert(1);
+            opacity: 0.5;
+        }
+
+        .books-carousel::scroll-button(*):not(:disabled):is(:hover, :active) {
+            filter: drop-shadow(2px 4px 6px black);
+        }
+
+        .books-carousel::scroll-button(*):not(:disabled):active {
+            scale: 90%;
+        }
+
+        .books-carousel::scroll-button(left) {
+            content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiB2aWV3Qm94PSIwIDAgMjMyLjAwMDAwMCAyNTYuMDAwMDAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdHJhbnNmb3JtPSJtYXRyaXgoLTEsMCwwLDEsMCwwKSI+Cgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwyNTYuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIiBmaWxsPSIjZmZmIiBzdHJva2U9Im5vbmUiPgo8cGF0aCBkPSJNMTE4MCAyMTEwIGwwIC0xODAgLTU0MCAwIC01NDAgMCAwIC03MjUgMCAtNzI1IDU0MCAwIDU0MCAwIDAgLTE4MCAwIC0xODAgMTIwIDAgMTIwIDAgMCA2MCAwIDYwIDYwIDAgNjAgMCAwIDYwIDAgNjAgNjAgMCA2MCAwIDAgNjAgMCA2MCA2MCAwIDYwIDAgMCA2MCAwIDYwIDYwIDAgNjAgMCAwIDYwIDAgNjAgNjAgMCA2MCAwIDAgNjAgMCA2MCA2MCAwIDYwIDAgMCA1MyBjMCAyOSA1IDU4IDEyIDY1IDcgNyAzNCAxMiA2MCAxMiBsNDggMCAwIDIzNSAwIDIzNSAtNjAgMCAtNjAgMCAwIDY1IDAgNjUgLTQ3IDAgYy02OCAwIC03NSAtNyAtNzEgLTcxIGwzIC01NCA1OCAtMyA1NyAtMyAwIC0xMTkgMCAtMTIwIC01NSAwIC01NCAwIC0zIC01NyAtMyAtNTggLTYwIC01IC02MCAtNSAtMyAtNTcgLTMgLTU3IC01NyAtMyAtNTcgLTMgLTMgLTU3IC0zIC01NyAtNTcgLTMgLTU3IC0zIC0zIC01NyAtMyAtNTcgLTU3IC0zIC01NyAtMyAtMyAtNTcgLTMgLTU3IC01NyAtMyAtNTcgLTMgLTMgLTU4IC0zIC01OCAtNTcgMyAtNTcgMyAtMyAxNzggLTIgMTc3IC01NDAgMCAtNTQwIDAgMiA0ODMgMyA0ODIgNTM3IDMgNTM2IDIgNyAzMiBjNCAxNyA2IDk3IDQgMTc3IGwtNCAxNDYgNTggMyA1NyAzIDAgLTYxIDAgLTYwIDYwIDAgNjAgMCAwIC02MCAwIC02MCA2MCAwIDYwIDAgMCAtNjAgMCAtNjAgNjAgMCA2MCAwIDAgLTYwIDAgLTYwIDYwIDAgNjAgMCAwIDYwIDAgNjAgLTYwIDAgLTYwIDAgMCA2MCAwIDYwIC02MCAwIC02MCAwIDAgNjAgMCA2MCAtNjAgMCAtNjAgMCAwIDYwIDAgNjAgLTYwIDAgLTYwIDAgMCA2MCAwIDYwIC02MCAwIC02MCAwIDAgNjAgMCA2MCAtMTIwIDAgLTEyMCAwIDAgLTE4MHoiPjwvcGF0aD4KPC9nPgo8L3N2Zz4=") / "Scroll Left";
+            grid-area: left;
+        }
+
+        .books-carousel::scroll-button(right) {
+            content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiB2aWV3Qm94PSIwIDAgMjMyLjAwMDAwMCAyNTYuMDAwMDAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0Ij4KCjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAwMDAwLDI1Ni4wMDAwMDApIHNjYWxlKDAuMTAwMDAwLC0wLjEwMDAwMCkiIGZpbGw9IiNmZmYiIHN0cm9rZT0ibm9uZSI+CjxwYXRoIGQ9Ik0xMTgwIDIxMTAgbDAgLTE4MCAtNTQwIDAgLTU0MCAwIDAgLTcyNSAwIC03MjUgNTQwIDAgNTQwIDAgMCAtMTgwIDAgLTE4MCAxMjAgMCAxMjAgMCAwIDYwIDAgNjAgNjAgMCA2MCAwIDAgNjAgMCA2MCA2MCAwIDYwIDAgMCA2MCAwIDYwIDYwIDAgNjAgMCAwIDYwIDAgNjAgNjAgMCA2MCAwIDAgNjAgMCA2MCA2MCAwIDYwIDAgMCA2MCAwIDYwIDYwIDAgNjAgMCAwIDUzIGMwIDI5IDUgNTggMTIgNjUgNyA3IDM0IDEyIDYwIDEyIGw0OCAwIDAgMjM1IDAgMjM1IC02MCAwIC02MCAwIDAgNjUgMCA2NSAtNDcgMCBjLTY4IDAgLTc1IC03IC03MSAtNzEgbDMgLTU0IDU4IC0zIDU3IC0zIDAgLTExOSAwIC0xMjAgLTU1IDAgLTU0IDAgLTMgLTU3IC0zIC01OCAtNjAgLTUgLTYwIC01IC0zIC01NyAtMyAtNTcgLTU3IC0zIC01NyAtMyAtMyAtNTcgLTMgLTU3IC01NyAtMyAtNTcgLTMgLTMgLTU3IC0zIC01NyAtNTcgLTMgLTU3IC0zIC0zIC01NyAtMyAtNTcgLTU3IC0zIC01NyAtMyAtMyAtNTggLTMgLTU4IC01NyAzIC01NyAzIC0zIDE3OCAtMiAxNzcgLTU0MCAwIC01NDAgMCAyIDQ4MyAzIDQ4MiA1MzcgMyA1MzYgMiA3IDMyIGM0IDE3IDYgOTcgNCAxNzcgbC00IDE0NiA1OCAzIDU3IDMgMCAtNjEgMCAtNjAgNjAgMCA2MCAwIDAgLTYwIDAgLTYwIDYwIDAgNjAgMCAwIC02MCAwIC02MCA2MCAwIDYwIDAgMCAtNjAgMCAtNjAgNjAgMCA2MCAwIDAgLTYwIDAgLTYwIDYwIDAgNjAgMCAwIDYwIDAgNjAgLTYwIDAgLTYwIDAgMCA2MCAwIDYwIC02MCAwIC02MCAwIDAgNjAgMCA2MCAtNjAwIC02MDAgMCAwIDYwIDAgNjAgLTYwIDAgLTYwIDAgMCA2MCAwIDYwIC02MCAwIC02MCAwIDAgNjAgMCA2MCAtMTIwIDAgLTEyMCAwIDAgLTE4MHoiLz4KPC9nPgo8L3N2Zz4=") / "Scroll Right";
+            grid-area: right;
+            justify-self: flex-end;
+        }
+
+        .books-carousel::scroll-marker-group {
+            content: "";
+            width: 100%;
+            height: 8px;
+            padding: 2px 0;
+            display: grid;
+            position: absolute;
+            grid-area: markers;
+
+            grid-auto-flow: column;
+            place-self: center;
+            overflow: hidden;
+            border: 1px solid #000;
+
+            background: linear-gradient(90deg, #f1e2b2 0%) no-repeat left center;
+            --_progress: calc(calc(100 / var(--slides)) * 1%);
+            background-size: var(--_progress, 20%) 100%;
+
+            animation: progress linear both;
+            animation-timeline: --carousel-timeline;
+        }
+
+        .books-carousel > .books-carousel-item {
+            scroll-snap-stop: always;
+            scroll-snap-align: start;
+            animation: count-before linear forwards;
+            animation-range: exit;
+            counter-increment: page;
+            animation-timeline: view(x);
+
+            position: relative;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        .books-carousel > .books-carousel-item::scroll-marker {
+            content: '';
+            position: relative;
+            left: -1px;
+            width: 100%;
+            height: 100%;
+            display: block;
+            box-sizing: border-box;
+            box-shadow: 2px 0 0 #000;
+        }
+
+        .books-carousel > .books-carousel-item:last-of-type::scroll-marker {
+            box-shadow: none;
+        }
+
+        .books-page-container {
+            display: flex;
+            gap: 3rem;
+            height: 100%;
+
+            animation: stay-centered linear both;
+            animation-timeline: view(x);
+            timeline-scope: --parallax-item;
+        }
+
+        .books-left-page, .books-right-page {
+            flex: 1;
+            font-size: small;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 1fr auto;
+            padding: 20px;
+        }
+
+        .books-left-page:after, .books-right-page:after {
+            bottom: 15px;
+            color: hsl(45.71deg 69.23% 30%);
+        }
+
+        .books-left-page > div, .books-right-page > div {
+            text-align: justify;
+            hyphens: auto;
+            line-height: normal;
+            display: block;
+            word-wrap: break-word;
+        }
+
+        .books-left-page {
+            padding-left: 20px;
+            padding-right: 10px;
+            
+        }
+
+        .books-left-page:after {
+            content: counter(curpage);
+        }
+
+        .books-right-page {
+            padding-left: 10px;
+            padding-right: 20px;
+            counter-increment: curpage;
+        }
+
+        .books-right-page:after {
+            content: counter(curpage);
+            place-self: self-end;
+        }
+
+        .books-faq-question {
+            font-weight: bold;
+            color: #f840a8;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-family: 'Teko', sans-serif;
+        }
+
+        .books-faq-answer {
+            color: #333;
+            line-height: 1.4;
+            font-family: 'Teko', sans-serif;
+        }
+
+        @media (width < 748px) {
+            .books-container {
+                --sprite-th: calc(var(--sprite-sh) / 2.5);
+            }
+
+            .books-container > h1 {
+                font-size: 1.25rem;
+            }
+
+            .books-page > div {
+                font-size: .6rem;
+            }
+        }
+
+        @media (width < 560px) {
+            .books-container {
+                --sprite-th: calc(var(--sprite-sh) / 4);
+            }
+
+            .books-container > h1 {
+                font-size: 1rem;
+            }
+
+            .books-page > div {
+                font-size: .35rem;
+            }
+
+            .books-page:after {
+                font-size: .5rem;
+            }
+        }
+
+        @keyframes stay-centered {
+            entry 0% {
+                opacity: 0;
+                translate: -100%;
+            }
+            entry 75% {
+                opacity: 0;
+                translate: -25%;
+            }
+            entry 100% {
+                opacity: 1;
+                translate: 0%;
+            }
+            exit 0% {
+                opacity: 1;
+                translate: 0%;
+            }
+            exit 50% {
+                opacity: 0;
+                translate: 50%;
+            }
+            exit 100% {
+                opacity: 0;
+                translate: 100%;
+            }
+        }
+
+        @keyframes count-before {
+            1%,
+            100% {
+                counter-increment: page curpage;
+            }
+        }
+
+        @keyframes progress {
+            100% {
+                --_progress: 100%;
+            }
+        }
+
+        @keyframes frame {
+            to {
+                --sprite-fs: var(--sprite-fe);
+            }
+        }
+
+        @media (prefers-reduced-motion) {
+            .books-container,
+            .books-carousel,
+            .books-sprite,
+            .books-page-container,
+            .books-carousel-item {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section >
+        <div class="books-container">
+        <h1>
+            CSS <span style="color: #f840a8; text-decoration: underline">Sprite-Based</span> FAQ Flip Carousel Using <span style="color: #f840a8; text-decoration: underline">Scroll-Timeline</span>
+        </h1>
+        <div class="books-sprite-wrapper">
+            <div class="books-book">
+                <!-- Carousel container -->
+                <div class="books-carousel" style="--slides: 4;">
+                    <!-- Bg sprite -->
+                    <div class="books-sprite"></div>
+                    
+                    <!-- Page 1 -->
+                    <div class="books-carousel-item">
+                        <div class="books-page-container">
+                            <div class="books-page books-left-page">
+                                <div>
+                                    <div class="books-faq-question">Is this Hackathon an online event or offline?</div>
+                                    <div class="books-faq-answer">
+                                       This is an offline event.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Is there any registration fee?</div>
+                                    <div class="books-faq-answer">
+                                        No, the hackathon is completely free to participate in for all registered students.
+                                    </div>
+                                    <div class="books-faq-question">Should you stay on campus overnight?</div>
+                                    <div class="books-faq-answer">
+                                       Yes, we ask that all participants stay on campus throughout the hackathon for the best experience.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">What are the facilities arranged by the organizers?</div>
+                                    <div class="books-faq-answer">
+                                        We have arranged everything for you, including meals, comfortable accommodations, and swag.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="books-page books-right-page">
+                                <div>
+                                    <div  class="books-faq-question" >I am a newbie, can I hack?</div>
+                                    <div class="books-faq-answer">
+                                        Absolutely! Mentors will assist you throughout the event.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Does this hackathon cover both software and hardware projects?</div>
+                                    <div class="books-faq-answer">
+                                        Yes, it includes both software and hardware projects.
+                                    </div>
+                                    <div class="books-faq-question">What should I bring for the hackathon?</div>
+                                    <div class="books-faq-answer">
+                                        Bring your student ID, laptops, gadgets, or anything else you want to work on.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Will the hackathon have Wi-Fi facilities?</div>
+                                    <div class="books-faq-answer">
+                                        Yes, we will provide Wi-Fi throughout the event.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Page 2 -->
+                    <div class="books-carousel-item">
+                        <div class="books-page-container">
+                            <div class="books-page books-left-page">
+                                <div>
+                                    <div class="books-faq-question">Can I participate without a team?</div>
+                                    <div class="books-faq-answer">
+                                        No, this hackathon is a team event. You can team up with others in our community group.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Will you sponsor our travel costs?</div>
+                                    <div class="books-faq-answer">
+                                        No, we do not reimburse travel costs, but accommodation is provided for those traveling from outside the city.
+                                    </div>
+                                    <div class="books-faq-question">Will there be any mentoring sessions?</div>
+                                    <div class="books-faq-answer">
+                                       Yes, mentors will guide you throughout the hackathon.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Do I need to be a student to participate?</div>
+                                    <div class="books-faq-answer">
+                                        Yes, this hackathon is open to high school and undergraduate students.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="books-page books-right-page">
+                                <div>
+                                    <div class="books-faq-question">What are the judging criteria?</div>
+                                    <div class="books-faq-answer">
+                                        Projects will be judged based on innovation, technical complexity, design, and real-world impact.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">How many members can be in a team?</div>
+                                    <div class="books-faq-answer">
+                                        Teams can have 2-4 members. Solo participation is not allowed.
+                                    </div>
+                                    <div class="books-faq-question">Can we use pre-built code or templates?</div>
+                                    <div class="books-faq-answer">
+                                        All code must be written during the hackathon. Using pre-built templates is not allowed.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">What prizes are available?</div>
+                                    <div class="books-faq-answer">
+                                        We have cash prizes, tech gadgets, internship opportunities, and sponsor goodies for winners.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Page 3 -->
+                    <div class="books-carousel-item">
+                        <div class="books-page-container">
+                            <div class="books-page books-left-page">
+                                <div>
+                                    <div class="books-faq-question">What time does the hackathon start and end?</div>
+                                    <div class="books-faq-answer">
+                                        The hackathon begins at 9:00 AM on Saturday and concludes at 6:00 PM on Sunday.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Are there any theme restrictions?</div>
+                                    <div class="books-faq-answer">
+                                        Projects can be built around any theme, but we encourage solutions for social good and sustainability.
+                                    </div>
+                                    <div class="books-faq-question">Can we sleep during the hackathon?</div>
+                                    <div class="books-faq-answer">
+                                        Yes, we have designated rest areas and encourage participants to take breaks.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">What if I have dietary restrictions?</div>
+                                    <div class="books-faq-answer">
+                                        Please inform us during registration, and we will accommodate your dietary needs.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="books-page books-right-page">
+                                <div>
+                                    <div class="books-faq-question">Is there a code of conduct?</div>
+                                    <div class="books-faq-answer">
+                                        Yes, all participants must adhere to our code of conduct promoting respect and inclusivity.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">What happens if we need technical help?</div>
+                                    <div class="books-faq-answer">
+                                        Technical mentors will be available 24/7 to help with any challenges you face.
+                                    </div>
+                                    <div class="books-faq-question">Can we present our previous projects?</div>
+                                    <div class="books-faq-answer">
+                                        No, all projects must be built from scratch during the hackathon duration.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Will there be workshops before the hackathon?</div>
+                                    <div class="books-faq-answer">
+                                        Yes, we will conduct preparatory workshops on various technologies the week before.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Page 4 -->
+                    <div class="books-carousel-item">
+                        <div class="books-page-container">
+                            <div class="books-page books-left-page">
+                                <div>
+                                    <div class="books-faq-question">How do we submit our project?</div>
+                                    <div class="books-faq-answer">
+                                        Projects must be submitted through our online portal with a demo video and GitHub repository.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">What is the presentation format?</div>
+                                    <div class="books-faq-answer">
+                                        Each team gets 5 minutes to present followed by 3 minutes of Q&A from judges.
+                                    </div>
+                                    <div class="books-faq-question">Can we use cloud services?</div>
+                                    <div class="books-faq-answer">
+                                        Yes, you can use any cloud services that offer free tiers for students.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">What if we can't finish our project?</div>
+                                    <div class="books-faq-answer">
+                                        You can still present your progress. We value the learning experience and effort.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="books-page books-right-page">
+                                <div>
+                                    <div class="books-faq-question">Are there any specific technologies required?</div>
+                                    <div class="books-faq-answer">
+                                        No, you can use any programming languages, frameworks, or tools you're comfortable with.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Will certificates be provided?</div>
+                                    <div class="books-faq-answer">
+                                        Yes, all participants will receive digital certificates of participation.
+                                    </div>
+                                    <div class="books-faq-question">Can international students participate?</div>
+                                    <div class="books-faq-answer">
+                                        Currently, this event is only open to students studying in our country.
+                                    </div>
+                                    <br>
+                                    <div class="books-faq-question">Who can I contact for more information?</div>
+                                    <div class="books-faq-answer">
+                                        Email us at hackathon@university.edu or join our Discord community for updates.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+</body>
+</html>

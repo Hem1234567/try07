@@ -257,9 +257,7 @@
             transition: transform 0.3s ease;
             position: relative;
             overflow: hidden;
-            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(125, 227, 255, 0.2);
         }
         
         .home-timer-unit:hover {
@@ -540,7 +538,6 @@
         /* Section Styling - FIXED SCROLLING ISSUE */
         .about-section {
             position: relative;
-            padding: 80px 0;
             background: transparent;
             z-index: 30;
             min-height: 100vh; /* Changed from height to min-height */
@@ -2705,7 +2702,182 @@
 
 /*full sponeser section ends*/
 
-/* Mobile touch improvements */
+        /*faq section starts*/
+        .faqs-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 50px auto;
+            padding: 40px 30px;
+            background-color: transparent;
+        }
+        .faqs-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .faqs-column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .faqs-accordion {
+            background-color: transparent;
+            border-radius: 8px;
+        }
+
+        .faqs-accordion-item {
+            background-color: #1a1a1a;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid #2a2a2a;
+        }
+
+        .faqs-accordion-item:hover {
+            border-color: #444444;
+        }
+
+        .faqs-accordion-button {
+            width: 100%;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: 500;
+            text-align: left;
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            font-family: 'Teko', sans-serif;
+        }
+
+        .faqs-accordion-button:hover {
+            background-color: #222222;
+        }
+
+        .faqs-accordion-icon {
+            font-size: 20px;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 15px;
+            color: #ffffff;
+        }
+
+        .faqs-accordion-button.active .faqs-accordion-icon {
+            transform: rotate(45deg);
+        }
+
+        .faqs-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            background-color: #1c1c1c;
+            transition: max-height 0.5s ease-in-out;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+
+        .faqs-accordion-content p {
+            margin: 0;
+            padding: 20px 10px;
+            font-size: 20px;
+            color: #e0e0e0;
+            text-align: left;
+            font-family: 'Teko', sans-serif;
+        }
+
+        .faqs-accordion-item.active {
+            border-color: #ffffff;
+        }
+
+        .faqs-accordion-item.active .faqs-accordion-button {
+            background-color: #222222;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .faqs-heading {
+                height: 80px;
+                margin-bottom: 80px;
+                margin-top: 30px;
+            }
+
+            .faqs-heading-shadow {
+                font-size: 80px;
+            }
+
+            .faqs-heading-small {
+                font-size: 48px;
+            }
+
+            .faqs-heading-small div {
+                height: 54px;
+            }
+
+            .faqs-row {
+                flex-direction: column;
+            }
+            
+            .faqs-column {
+                width: 100%;
+            }
+            
+            .faqs-accordion-button {
+                font-size: 16px;
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .faqs-heading {
+                height: 60px;
+                margin-bottom: 60px;
+                margin-top: 20px;
+            }
+
+            .faqs-heading-shadow {
+                font-size: 62px;
+            }
+
+            .faqs-heading-small {
+                font-size: 45px;
+            }
+
+            .faqs-heading-small div {
+                height: 50px;
+            }
+
+            .faqs-accordion-button {
+                font-size: 15px;
+            }
+            
+            .faqs-accordion-content p {
+                font-size: 14px;
+            }
+            
+            .faqs-container {
+                padding: 30px 20px;
+            }
+        }
+
+        @keyframes faqs-fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .faqs-accordion-content p {
+            animation: faqs-fadeIn 0.3s ease-in;
+        }
+        /*faq section ends*/
+
+        /*general styles starts*/
         @media (max-width: 768px) {
             .section-heading {
                 height: 80px;
@@ -2745,6 +2917,140 @@
                 height: 50px;
             }
         }
+        /*general styles end*/
+        .footer-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-overlay {
+            position: absolute;
+            inset: 0;
+            background: black;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.25rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .footer-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #7ee3ff, #8f51ea, #f0abfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-subtitle {
+            font-size: 1.5rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icon {
+            font-size: 1.25rem;
+            color: white;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            color: #7ee3ff;
+        }
+        
+        .footer-heading {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            line-height: 1.5;
+        }
+        
+        .footer-link {
+            color: #7ee3ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1.25rem;
+        }
+        
+        .footer-link:hover {
+            color: #8f51ea;
+            text-decoration: underline;
+        }
+        
+        .footer-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .map-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .copyright {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #9ca3af;
+            font-size: 1rem;
+        }
+        
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.4rem;
+            }
+            
+            .footer-content {
+                padding: 0 2rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .footer-content {
+                padding: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2772,7 +3078,7 @@
                     <div class="home-button-row">
                         <!-- Visit 2.0 button with blue theme -->
                         <div class="home-galaxy-button">
-                            <button class="home-space-button home-blue-theme" onclick="window.location.href='https://two.pechacks.org/'">
+                            <button class="home-space-button home-blue-theme cursor-target onclick="window.location.href='https://two.pechacks.org/'">
                                 <span class="home-backdrop"></span>
                                 <span class="home-galaxy"></span>
                                 <label class="home-text" style="font-family: 'Teko', sans-serif; font-size: large;">Visit 2.0</label>
@@ -2780,7 +3086,7 @@
                         </div>
                         <!-- Community button with original theme -->
                         <div class="home-galaxy-button">
-                            <button class="home-space-button" onclick="window.location.href='https://chat.whatsapp.com/GlkLriPcKKZJYduudh6RbI?mode=wwt'">
+                            <button class="home-space-button cursor-target" onclick="window.location.href='https://chat.whatsapp.com/GlkLriPcKKZJYduudh6RbI?mode=wwt'">
                                 <span class="home-backdrop"></span>
                                 <span class="home-galaxy"></span>
                                 <label class="home-text" style="font-family: 'Teko', sans-serif; font-size: large;">Join Our Community</label>
@@ -2789,7 +3095,7 @@
                     </div>
                     <!-- Devfolio Apply Button -->
                     <div class="home-space-btn-wrapper">
-                        <div class="home-apply-button" data-hackathon-slug="pechacks3" data-button-theme="light" style="height: 44px; width: 312px; margin: 0 auto;"></div>
+                        <div class="home-apply-button " data-hackathon-slug="pechacks3" data-button-theme="light" style="height: 44px; width: 312px; margin: 0 auto;"></div>
                     </div>
                 </div>
 
@@ -2898,135 +3204,9 @@
                 </div>
             </div>
 
-            <!-- OUR PATRONS SECTION -->
-            <div class="section-heading about-not-selectable">
-                <h1 class="heading-shadow about-not-selectable">OUR PATRONS</h1>
-                <h2 class="heading-small">
-                    <div><div>O</div></div>
-                    <div><div>U</div></div>
-                    <div><div>R</div></div>
-                    <div><div style="margin: 0px 35px 0px 0px;"></div></div>
-                    <div><div>P</div></div>
-                    <div><div>A</div></div>
-                    <div><div>T</div></div>
-                    <div><div>R</div></div>
-                    <div><div>O</div></div>
-                    <div><div>N</div></div>
-                    <div><div>S</div></div>
-                </h2>
-            </div>
+            
 
-            <div class="about-flex about-flex-col about-gap-30 about-mt-50">
-                <!-- Our Patrons Grid -->
-                <div class="about-patrons-grid">
-                    <!-- Dr. P Chinnadurai -->
-                    <div class="about-patron-card">
-                        <div class="about-patron-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
-                            Dr. P Chinnadurai
-                        </div>
-                        <div class="about-patron-info">
-                            <h3 class="about-patron-name">Dr. P Chinnadurai</h3>
-                            <p class="about-patron-role">Secretary & Correspondent</p>
-                        </div>
-                    </div>
-
-                    <!-- Dr. C Sakthi Kumar -->
-                    <div class="about-patron-card">
-                        <div class="about-patron-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
-                            Dr. C SakthiKumar
-                        </div>
-                        <div class="about-patron-info">
-                            <h3 class="about-patron-name">Dr. C SakthiKumar</h3>
-                            <p class="about-patron-role">Director</p>
-                        </div>
-                    </div>
-
-                    <!-- Mrs. C Vijayarajeswari -->
-                    <div class="about-patron-card">
-                        <div class="about-patron-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
-                            Mrs. C Vijayarajeswari
-                        </div>
-                        <div class="about-patron-info">
-                            <h3 class="about-patron-name">Mrs. C Vijayarajeswari</h3>
-                            <p class="about-patron-role">Director</p>
-                        </div>
-                    </div>
-
-                    <!-- Dr. Saranya Sree Sakthi Kumar -->
-                    <div class="about-patron-card">
-                        <div class="about-patron-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; text-align: center;">
-                            Dr. Saranya Sree Sakthi Kumar
-                        </div>
-                        <div class="about-patron-info">
-                            <h3 class="about-patron-name">Dr. Saranya Sree Sakthi Kumar</h3>
-                            <p class="about-patron-role">Director</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CO PATRONS -->
-                <div class="about-text-center about-mb-30 about-mt-30">
-                    <h3 class="about-text-4xl about-font-bold about-text-white" style="font-family: 'Teko', sans-serif;">CO PATRONS</h3>
-                </div>
-
-                <!-- Co Patrons Grid -->
-                <div class="about-patrons-grid about-max-w-600">
-                    <!-- Dr. K. Mani -->
-                    <div class="about-patron-card">
-                        <div class="about-patron-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
-                            Dr.K.Mani
-                        </div>
-                        <div class="about-patron-info">
-                            <h3 class="about-patron-name">Dr.K.Mani</h3>
-                            <p class="about-patron-role">Principal</p>
-                        </div>
-                    </div>
-
-                    <!-- Dr.S.Prasanna Devi -->
-                    <div class="about-patron-card">
-                        <div class="about-patron-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); display: flex; align-items: center; justify-content: center; color: #333; font-size: 12px; text-align: center;">
-                            Dr.S.Prasanna Devi
-                        </div>
-                        <div class="about-patron-info">
-                            <h3 class="about-patron-name">Dr.S.Prasanna Devi</h3>
-                            <p class="about-patron-role">Chief Academic Officer</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ORGANIZED BY AND IN ASSOCIATION WITH -->
-                <div class="about-association-container">
-                    <!-- Organized By Container -->
-                    <div class="about-organized-container">
-                        <h3 class="about-organized-title">ORGANISED BY</h3>
-                        <div class="about-logo-container">
-                            <div class="about-logo-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center;">
-                                PEC Logo
-                            </div>
-                            <p class="about-logo-text">Panimalar Engineering College</p>
-                        </div>
-                    </div>
-                    
-                    <!-- In Association With Container -->
-                    <div class="about-associated-container">
-                        <h3 class="about-associated-title">IN ASSOCIATION WITH</h3>
-                        <div class="about-associated-logos">
-                            <div class="about-associated-logo-item">
-                                <div class="about-logo-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; text-align: center;">
-                                    GDG
-                                </div>
-                                <p class="about-logo-text">Google Developer Groups</p>
-                            </div>
-                            <div class="about-associated-logo-item">
-                                <div class="about-logo-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); display: flex; align-items: center; justify-content: center; color: #333; font-size: 14px; text-align: center;">
-                                    IEEE
-                                </div>
-                                <p class="about-logo-text">IEEE</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </section>
 
@@ -3408,57 +3588,7 @@
     <!--partners section starts-->
     <section class="partners-section">
         <div class="partners-container">
-            <div class="section-heading">
-                <h1 class="heading-shadow">Join With Us</h1>
-                <h2 class="heading-small">
-                    <div><div>J</div></div>
-                    <div><div>o</div></div>
-                    <div><div>i</div></div>
-                    <div><div>n</div></div>
-                    <div><div style="margin: 0px 10px 0px 0px;"></div></div>
-                    <div><div>W</div></div>
-                    <div><div>i</div></div>
-                    <div><div>t</div></div>
-                    <div><div>h</div></div>
-                    <div><div style="margin: 0px 10px 0px 0px;"></div></div>
-                    <div><div>U</div></div>
-                    <div><div>s</div></div>
-                </h2>
-            </div>
-
-            <!-- Why Partner Section -->
-            <div class="partners-why">
-                <h3>Why Partner With PEC HACKS 3.0 ?</h3>
-                <div class="partners-grid">
-                    <!-- Targeted Reach -->
-                    <div class="partners-card">
-                        <div class="partners-icon">🎯</div>
-                        <h4>Targeted Reach</h4>
-                        <p>Connect with 500+ highly skilled developers, designers, and innovators from top institutions.</p>
-                    </div>
-
-                    <!-- Brand Visibility -->
-                    <div class="partners-card">
-                        <div class="partners-icon">🌟</div>
-                        <h4>Brand Visibility</h4>
-                        <p>Gain exposure across multiple channels including social media, campus networks, and tech communities.</p>
-                    </div>
-
-                    <!-- Talent Acquisition -->
-                    <div class="partners-card">
-                        <div class="partners-icon">💼</div>
-                        <h4>Talent Acquisition</h4>
-                        <p>Direct access to emerging talent and the opportunity to recruit the best minds in technology.</p>
-                    </div>
-
-                    <!-- Innovation Access -->
-                    <div class="partners-card">
-                        <div class="partners-icon">🚀</div>
-                        <h4>Innovation Access</h4>
-                        <p>Get first-hand access to cutting-edge solutions and innovative ideas from the hackathon.</p>
-                    </div>
-                </div>
-            </div>
+            
 
             <!-- Partners by Category -->
             <div class="partners-categories">
@@ -3483,28 +3613,28 @@
                     </div>
                     <div class="partners-flex">
                         <!-- Devfolio -->
-                        <div class="partners-item" onclick="window.open('https://devfolio.co/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://devfolio.co/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=DEVFOLIO" alt="DEVFOLIO LOGO">
                             </div>
                         </div>
 
                         <!-- GIT-HUB -->
-                        <div class="partners-item" onclick="window.open('https://github.com/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://github.com/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=GIT-HUB" alt="GIT-HUB LOGO">
                             </div>
                         </div>
                         
                         <!-- THIRDWEB -->
-                        <div class="partners-item" onclick="window.open('https://thirdweb.com/brand-kit', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://thirdweb.com/brand-kit', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=THIRDWEB" alt="THIRDWEB LOGO">
                             </div>
                         </div>
 
                         <!-- code crafters -->
-                        <div class="partners-item" onclick="window.open('https://codecrafters.io/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://codecrafters.io/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=CODECRAFTERS" alt="CODECRAFTERS LOGO">
                             </div>
@@ -3519,7 +3649,7 @@
                     </div>
                     <div class="partners-flex">
                         <!-- ETH India -->
-                        <div class="partners-item" onclick="window.open('https://ethindia2024.devfolio.co/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://ethindia2024.devfolio.co/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=ETH+INDIA" alt="ETHINDIA LOGO">
                             </div>
@@ -3533,19 +3663,19 @@
                         <h3 class="partners-bronze-title">BRONZE SPONSORS</h3>
                     </div>
                     <div class="partners-flex">
-                        <div class="partners-item" onclick="window.open('https://balsamiq.com', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://balsamiq.com', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=BALSAMIQ" alt="balsamiq LOGO">
                             </div>
                         </div>
 
-                        <div class="partners-item" onclick="window.open('https://nordpass.com/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://nordpass.com/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=NORDPASS" alt="nord LOGO">
                             </div>
                         </div>
 
-                        <div class="partners-item" onclick="window.open('https://nordvpn.com/hackathons', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://nordvpn.com/hackathons', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=NORDVPN" alt="nordvpn LOGO">
                             </div>
@@ -3553,25 +3683,25 @@
                     </div>
                     
                     <div class="partners-flex" style="margin-top: 2rem;">
-                        <div class="partners-item" onclick="window.open('https://incogni.com/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://incogni.com/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=INCOGNI" alt="incogni LOGO">
                             </div>
                         </div>
 
-                        <div class="partners-item" onclick="window.open('https://artofproblemsolving.com/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://artofproblemsolving.com/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=AOPS" alt="AOPS LOGO">
                             </div>
                         </div>
 
-                        <div class="partners-item" onclick="window.open('https://nexos.ai/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://nexos.ai/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=NEXOSAI" alt="nexosai LOGO">
                             </div>
                         </div>
                         
-                        <div class="partners-item" onclick="window.open('https://nordprotect.com/', '_blank')">
+                        <div class="partners-item cursor-target" onclick="window.open('https://nordprotect.com/', '_blank')">
                             <div class="partners-logo">
                                 <img src="https://via.placeholder.com/200x100/1a1a1a/ffffff?text=PROTECT" alt="nordprotect LOGO">
                             </div>
@@ -3591,64 +3721,64 @@
                         <div class="partners-carousel-row partners-carousel-row-1">
                             <div class="partners-carousel-track">
                                 <!-- First set of logos -->
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.socialwinterofcode.com/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=SWOC" alt="SWOC LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.linkedin.com/company/gdgoncampus-snscollegeofengineering/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=GDG+SNS" alt="GDG SNS LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://avishkaar2024.adityatekkali.edu.in/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=AVISHKAAR" alt="avishkaar LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://gdg.community.dev/gdg-on-campus-jansons-institute-of-technology-coimbatore-india/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=GDG+JIT" alt="GDG JIT LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.linkedin.com/company/hack-club-sist/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=HACKSIST" alt="Hacksist LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://blockseblock.com/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=BLOCKSE" alt="Blockseblock LOGO">
                                     </a>
                                 </div>
 
                                 <!-- Duplicate set for seamless looping -->
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.socialwinterofcode.com/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=SWOC" alt="SWOC LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.linkedin.com/company/gdgoncampus-snscollegeofengineering/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=GDG+SNS" alt="GDG SNS LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://avishkaar2024.adityatekkali.edu.in/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=AVISHKAAR" alt="avishkaar LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://gdg.community.dev/gdg-on-campus-jansons-institute-of-technology-coimbatore-india/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=GDG+JIT" alt="GDG JIT LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.linkedin.com/company/hack-club-sist/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=HACKSIST" alt="Hacksist LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://blockseblock.com/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=BLOCKSE" alt="Blockseblock LOGO">
                                     </a>
@@ -3660,64 +3790,64 @@
                         <div class="partners-carousel-row partners-carousel-row-2">
                             <div class="partners-carousel-track">
                                 <!-- First set of logos -->
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.linkedin.com/company/gdgoncampus-snscollegeofengineering/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=STARTUP" alt="START THE UP LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://avishkaar2024.adityatekkali.edu.in/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=CODENEURAX" alt="CODENEURAX LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://gdg.community.dev/gdg-on-campus-jansons-institute-of-technology-coimbatore-india/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=D3" alt="D3 LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.linkedin.com/company/hack-club-sist/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=E-VJIT" alt="E-VJIT LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://blockseblock.com/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=ESHWARI" alt="ESHWARI LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://blockseblock.com/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=FRESOURCES" alt="FRESOURCES LOGO">
                                     </a>
                                 </div>
 
                                 <!-- Duplicate set for seamless looping -->
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.linkedin.com/company/gdgoncampus-snscollegeofengineering/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=STARTUP" alt="START THE UP LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://avishkaar2024.adityatekkali.edu.in/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=CODENEURAX" alt="CODENEURAX LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://gdg.community.dev/gdg-on-campus-jansons-institute-of-technology-coimbatore-india/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=D3" alt="D3 LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://www.linkedin.com/company/hack-club-sist/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=E-VJIT" alt="E-VJIT LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://blockseblock.com/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=ESHWARI" alt="ESHWARI LOGO">
                                     </a>
                                 </div>
-                                <div class="partners-carousel-item">
+                                <div class="partners-carousel-item cursor-target">
                                     <a href="https://blockseblock.com/" target="_blank">
                                         <img src="https://via.placeholder.com/150x80/ffffff/333333?text=FRESOURCES" alt="FRESOURCES LOGO">
                                     </a>
@@ -3737,13 +3867,13 @@
                             Be part of the most exciting hackathon in the region. Let's create something extraordinary together and shape the future of technology.
                         </p>
                         <div class="partners-cta-buttons">
-                            <button class="partners-cta-button" onclick="viewSponsorshipDeck()">
+                            <button class="partners-cta-button cursor-target" onclick="viewSponsorshipDeck()">
                                 View Sponsorship Deck
                             </button>
                         </div>
                         <div class="partners-contact-info">
                             <p class="partners-contact-text">
-                                Contact us: <a href="mailto:team@pechacks.org" class="partners-contact-email">team@pechacks.org</a>
+                                Contact us: <a href="mailto:team@pechacks.org" class="partners-contact-email cursor-target">team@pechacks.org</a>
                             </p>
                         </div>
                     </div>
@@ -3751,6 +3881,230 @@
             </div>
         </div>
     </section>
+
+    <!--faq section starts-->
+    <section class="faqs-container">
+        <div class="faqs-row">
+            <!-- Left Column (First 6 questions) -->
+            <div class="faqs-column">
+                <div class="faqs-accordion">
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Is this Hackathon an online event or offline?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>This is an offline event.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Is there any registration fee?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>No, registrations for the event are entirely free of charge.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Should you stay on campus overnight?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>Yes, we ask that all participants stay on campus throughout the hackathon for the best experience.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">What are the facilities arranged by the organizers?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>We have arranged everything for you, including meals, comfortable accommodations, and swag.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">I am a newbie, can I hack?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>Absolutely! Mentors will assist you throughout the event.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Does this hackathon cover both software and hardware projects?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>Yes, it includes both software and hardware projects.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column (Last 6 questions) -->
+            <div class="faqs-column">
+                <div class="faqs-accordion">
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">What should I bring for the hackathon?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>Bring your student ID, laptops, gadgets, or anything else you want to work on.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Will the hackathon have Wi-Fi facilities?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>Yes, we will provide Wi-Fi throughout the event.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Can I participate without a team?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>No, this hackathon is a team event. You can team up with others in our community group.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Will you sponsor our travel costs?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>No, we do not reimburse travel costs, but accommodation is provided for those traveling from outside the city.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Will there be any mentoring sessions?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>Yes, mentors will guide you throughout the hackathon.</p>
+                        </div>
+                    </div>
+
+                    <div class="faqs-accordion-item">
+                        <button class="faqs-accordion-button">Do I need to be a student to participate?
+                            <span class="faqs-accordion-icon">+</span>
+                        </button>
+                        <div class="faqs-accordion-content">
+                            <p>Yes, this hackathon is open to high school and undergraduate students.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </section>
+
+    <!--footer section-->
+    <footer class="footer-container">
+        <div class="footer-overlay"></div>
+        
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Left Section -->
+                <div>
+                    <h2 class="footer-title">PEC Hacks</h2>
+                    <p class="footer-subtitle">International Hackathon</p>
+                    <div class="social-icons ">
+                        <a href="https://github.com/thecoding-society" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-icon cursor-target">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://x.com/PECHacks" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-icon cursor-target">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com/pechacks/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon cursor-target">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/pec-hacks/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon cursor-target">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://discord.gg/2w2FSTXehQ" target="_blank" rel="noopener noreferrer" aria-label="Discord" class="social-icon cursor-target">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Middle Section -->
+                <div>
+                    <h3 class="footer-heading">Venue Address</h3>
+                    <p class="footer-text">
+                        Panimalar Engineering College,<br>
+                        Nazarathpettai, Poonamallee,<br>
+                        Chennai, Tamil Nadu - 600123
+                    </p>
+                    <h3 class="footer-heading" style="margin-top: 1.5rem;">Branding Guidelines</h3>
+                    <ul class="footer-list">
+                        <li>
+                            <a href="http://assets.pechacks.org/" class="footer-link cursor-target">
+                                › PEC Hacks Branding Asset
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right Section -->
+                <div>
+                    <h3 class="footer-heading">Additional Links</h3>
+                    <ul class="footer-list">
+                        <li>
+                            <a href="https://www.panimalar.ac.in" target="_blank" rel="noopener noreferrer" class="footer-link cursor-target">
+                                › College Website
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://coding.peccsbs.xyz/" target="_blank" rel="noopener noreferrer" class="footer-link cursor-target">
+                                › The Coding Society
+                            </a>
+                        </li>
+                    </ul>
+                    <h3 class="footer-heading" style="margin-top: 1.5rem;">Past Events</h3>
+                    <ul class="footer-list">
+                        <li>
+                            <a href="https://one.pechacks.org/" target="_blank" rel="noopener noreferrer" class="footer-link cursor-target">
+                                › Visit 1.0
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://two.pechacks.org/" target="_blank" rel="noopener noreferrer" class="footer-link cursor-target">
+                                › Visit 2.0
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Map Section -->
+                <div>
+                    <h3 class="footer-heading">Location</h3>
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.7920451208224!2d80.07288927484274!3d13.048904887273663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5261c68a9f3031%3A0xab41c8bdcf32ad47!2sPanimalar%20Engineering%20College!5e0!3m2!1sen!2sin!4v1756634251679!5m2!1sen!2sin"
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright Section -->
+        <div class="copyright">
+            <p>© <span id="current-year">2025</span> PEC Hacks. All rights reserved.</p>
+        </div>
+    </footer>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
@@ -4466,6 +4820,44 @@
         }
 
         //full sponser section ends
+
+        //faq section starts
+        // FAQ Accordion functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            const accordionButtons = document.querySelectorAll(".faqs-accordion-button");
+
+            accordionButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const accordionItem = button.parentElement;
+                    const accordionContent = button.nextElementSibling;
+
+                    // Close all other accordion items
+                    document.querySelectorAll(".faqs-accordion-item").forEach((item) => {
+                        if (item !== accordionItem && item.classList.contains("active")) {
+                            item.classList.remove("active");
+                            item.querySelector(".faqs-accordion-content").style.maxHeight = null;
+                            item.querySelector(".faqs-accordion-button").classList.remove("active");
+                        }
+                    });
+
+                    // Toggle current accordion item
+                    accordionItem.classList.toggle("active");
+                    button.classList.toggle("active");
+
+                    if (accordionContent.style.maxHeight) {
+                        accordionContent.style.maxHeight = null;
+                    } else {
+                        accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Open first accordion by default
+            if (accordionButtons.length > 0) {
+                accordionButtons[0].click();
+            }
+        });
+        //faq section ends 
     </script>
 </body>
 </html>
