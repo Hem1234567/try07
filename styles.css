@@ -736,6 +736,13 @@
         }
 
         /* Responsive Styles */
+        /* Media query for mobile devices */
+        @media (max-width: 768px) {
+            .devfolio-btn {
+                padding: 10px 70px !important;
+                font-size: 18px !important;
+            }
+        }
         @media (max-width: 768px) {
             .home-hud-title {
                 font-size: 3rem;
@@ -1878,61 +1885,41 @@
 
         /*domains section start */
 
-        .domains-section {
-            position: relative;
-            padding: 80px 20px;
-            background: transparent;
-            width: 100%;
-            z-index: 60;
-        }
-
-        .domains-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        /* Domain Cards Container */
-        .domains-cards-container {
+        .pec-domain-cards-container {
             display: grid;
             place-items: center;
-            margin: 0 auto;
-            padding: 40px 0;
-            width: 100%;
+            margin-inline: 1.5rem;
+            padding-block: 2rem;
+            
         }
 
-        .domains-cards-wrapper {
+        .pec-domain-cards-wrapper {
             display: grid;
             row-gap: 3.5rem;
             grid-template-columns: 1fr;
             width: 100%;
             max-width: 1200px;
+            
         }
 
-        /* Domain Card Styles */
-        .domains-card {
+        .pec-domain-card {
             position: relative;
             overflow: hidden;
             border-radius: 1.5rem;
             margin: 0 auto;
             max-width: 328px;
-            height: 250px;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .domains-card-img {
+        .pec-domain-card__img {
             width: 100%;
-            height: 100%;
+            height: 250px;
             object-fit: cover;
             border-radius: 1.5rem;
         }
 
-        .domains-card-data {
+        .pec-domain-card__data {
             width: 210px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.5); /* Changed from 'glassy' to a valid RGBA */
             padding: 1.5rem 1.5rem;
             box-shadow: 0 8px 24px rgba(126, 227, 255, 0.15);
             border: 1px solid rgba(125, 227, 255, 0.3);
@@ -1941,29 +1928,52 @@
             bottom: -9rem;
             left: 0;
             right: 0;
-            margin: 0 auto;
+            margin-inline: auto;
             opacity: 0;
+            transition: opacity 1s 1s;
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            align-items: center; /* Center content horizontally */
+            text-align: center; /* Center text */
         }
 
-        .domains-card-title {
+        .pec-domain-card__description {
+            display: block;
+            font-size: 0.875rem;
+            margin-bottom: .25rem;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            text-align: center; /* Ensure text is centered */
+        }
+
+        .pec-domain-card__title {
             font-size: 1.9rem;
             font-weight: 600;
             color: white;
             margin-bottom: .75rem;
             font-family: 'Teko', sans-serif;
-            text-align: center;
-            width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            text-align: center; /* Ensure title is centered */
+            width: 100%; /* Make sure title takes full width for proper centering */
+        }
+
+        .pec-domain-card__button {
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            transition: all 0.3s ease;
+            text-align: center; /* Center button text */
+        }
+
+        .pec-domain-card__button:hover {
+            text-decoration: underline;
+            color: #8f51ea;
         }
 
         /* Card animation */
-        @keyframes domains-show-data {
+        @keyframes pec-show-data {
             50% {
                 transform: translateY(-10rem);
             }
@@ -1972,13 +1982,13 @@
             }
         }
 
-        @keyframes domains-remove-overflow {
+        @keyframes pec-remove-overflow {
             to {
                 overflow: initial;
             }
         }
 
-        @keyframes domains-remove-data {
+        @keyframes pec-remove-data {
             0% {
                 transform: translateY(-7rem);
             }
@@ -1990,7 +2000,7 @@
             }
         }
 
-        @keyframes domains-show-overflow {
+        @keyframes pec-show-overflow {
             0% {
                 overflow: initial;
                 pointer-events: none;
@@ -2002,7 +2012,7 @@
 
         /* For medium devices */
         @media screen and (min-width: 768px) {
-            .domains-cards-wrapper {
+            .pec-domain-cards-wrapper {
                 grid-template-columns: repeat(2, 1fr);
                 column-gap: 1.5rem;
             }
@@ -2010,38 +2020,26 @@
 
         /* For large devices */
         @media screen and (min-width: 1120px) {
-            .domains-cards-wrapper {
+            .pec-domain-cards-wrapper {
                 grid-template-columns: repeat(3, 1fr);
             }
-            .domains-card-img {
+            .pec-domain-card__img {
                 height: 320px;
             }
-            .domains-card-data {
+            .pec-domain-card__data {
                 width: 316px;
-                padding: 2.5rem;
+                padding-inline: 2.5rem;
             }
         }
 
         @media (max-width: 340px) {
-            .domains-cards-container {
-                margin: 0 1rem;
+            .pec-domain-cards-container {
+                margin-inline: 1rem;
             }
             
-            .domains-card-data {
+            .pec-domain-card__data {
                 width: 190px;
                 padding: 1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .domains-section {
-                padding: 40px 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .domains-section {
-                padding: 40px 15px;
             }
         }
 

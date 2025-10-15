@@ -679,27 +679,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // DOMAIN CARDS INTERACTIVITY
 document.addEventListener("DOMContentLoaded", function () {
-  const domainCards = document.querySelectorAll(".domains-card");
+  const domainCards = document.querySelectorAll(".pec-domain-card");
 
   domainCards.forEach((card) => {
-    const cardData = card.querySelector(".domains-card-data");
+    const cardData = card.querySelector(".pec-domain-card__data");
 
     card.addEventListener("mouseenter", function () {
       // Show data animation
-      cardData.style.animation = "domains-show-data 1s forwards";
+      cardData.style.animation = "pec-show-data 1s forwards";
       cardData.style.opacity = "1";
       cardData.style.transition = "opacity 0.3s";
 
       // Remove overflow animation
-      card.style.animation = "domains-remove-overflow 2s forwards";
+      card.style.animation = "pec-remove-overflow 2s forwards";
     });
 
     card.addEventListener("mouseleave", function () {
       // Remove data animation
-      cardData.style.animation = "domains-remove-data 1s forwards";
+      cardData.style.animation = "pec-remove-data 1s forwards";
 
       // Show overflow animation
-      card.style.animation = "domains-show-overflow 2s forwards";
+      card.style.animation = "pec-show-overflow 2s forwards";
 
       // After animation completes, reset opacity with delay
       setTimeout(() => {
@@ -709,30 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 1000);
     });
   });
-
-  // Add animation to heading letters
-  const letters = document.querySelectorAll(".heading-small div div");
-  letters.forEach((letter, index) => {
-    letter.style.animationDelay = `${index * 0.1}s`;
-    letter.style.animation = `domains-slideIn 0.8s ease forwards`;
-  });
 });
-
-// Add CSS animation for heading
-const style = document.createElement("style");
-style.textContent = `
-                    @keyframes domains-slideIn {
-                        from {
-                            transform: translateY(100%);
-                            opacity: 0;
-                        }
-                        to {
-                            transform: translateY(0);
-                            opacity: 1;
-                        }
-                    }
-                `;
-document.head.appendChild(style);
 
 //domain section ends
 
